@@ -4,7 +4,7 @@ import Home from "./pages/Home";
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import AddMusic from './pages/AddMusic';
-import AddArtist from './pages/AddArtist';
+import AddArtist from './pages/Music/AddArtist';
 import ListTransactions from './pages/ListTransactions';
 import Pay from './pages/Pay';
 

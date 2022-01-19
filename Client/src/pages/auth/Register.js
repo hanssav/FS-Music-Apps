@@ -14,8 +14,6 @@ export default function Register() {
     const title = "Register";
     document.title = "Music Apps | " + title;
 
-    //   const [state, dispatch] = useContext(UserContext);
-
     const [message, setMessage] = useState(null);
 
     // Store data with useState here ...
@@ -80,7 +78,6 @@ export default function Register() {
             }
 
         } catch (error) {
-            console.log(error)
             const alert = (
                 <Alert variant="danger" className="py-1">
                     Failed
@@ -96,7 +93,7 @@ export default function Register() {
         <div>
             <Navbar />
 
-            <Row className="register justify-content-center">
+            <Row className="register justify-content-center m-0">
                 <Card className= "card">
                     <Card.Body>
                         {message && message}

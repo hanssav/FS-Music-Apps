@@ -1,10 +1,5 @@
 .login, .register {
-    width: 100% !important;
-    height: 100%;
-    /* margin: 0; */
-    /* padding: 50px; */
     color: white;
-    align-items: center;
     font-family: 'Roboto Condensed', sans-serif;
 }
 
@@ -17,10 +12,17 @@
     background-color: #1F1F1F;
     color: white;
 }
+.login .card {
+    margin-top: 100px !important;
+}
+
+.register .card {
+    margin-top: 30px;
+}
 
 .formInput, .formSelect {
     background-color: #D2D2D240;
-    color: #B1B1B1;
+    color: #d3d3d3;
     border-radius: 5px;
     margin-bottom: 20px;
     width: 100%;
@@ -40,8 +42,8 @@
     border: none;
 }
 
-.buttonSubmit:active{
-    background-color: #EE4622;
+.buttonSubmit:hover{
+    background-color: #f15532;
     color: white;
 }
 

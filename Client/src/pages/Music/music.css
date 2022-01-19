@@ -1,0 +1,20 @@
+.addMusic{
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+.addMusic .title {
+    font-size: 29px;
+    font-weight: 700;
+}
+
+.addMusic .button {
+    width: 35%;
+    border-radius: 5px;
+    border: none;
+    background-color: #F58033;
+    color: white;
+}
+
+.addMusic .button:hover {
+    background-color: #f19355;
+}

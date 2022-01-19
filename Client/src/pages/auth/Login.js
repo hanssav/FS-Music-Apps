@@ -77,40 +77,42 @@ export default function Login() {
     }
 
     return (
-        <div className="login">
+        <>
             <Navbar />
-            <Row className="justify-content-center">
-                <Card className="card">
-                    <Card.Body>
-                        <Form
-                            onSubmit={handleLogin}
-                        >
-                            {message && message}
-                            <Form.Group className="d-flex justify-content-center my-4">
-                                <h3 className= "title"> Login</h3>
-                            </Form.Group>
+            <div className="login">
+                <Row className="justify-content-center align-items-center m-0">
+                    <Card className="card">
+                        <Card.Body>
+                            <Form
+                                onSubmit={handleLogin}
+                            >
+                                {message && message}
+                                <Form.Group className="d-flex justify-content-center my-4">
+                                    <h3 className= "title"> Login</h3>
+                                </Form.Group>
 
-                            <Form.Group className="mb-2" controlId="formBasicEmail">
-                                <Form.Control className="formInput" name="email" type="email" placeholder="Enter email" value={email} onChange={handleChange}/>
-                            </Form.Group>
+                                <Form.Group className="mb-2" controlId="formBasicEmail">
+                                    <Form.Control className="formInput" name="email" type="email" placeholder="Enter email" value={email} onChange={handleChange}/>
+                                </Form.Group>
 
-                            <Form.Group className="mb-4" controlId="formBasicPassword">
-                                <Form.Control className ="formInput" name="password" type="password" placeholder="Password" value={password} onChange={handleChange}/>
-                            </Form.Group>
+                                <Form.Group className="mb-4" controlId="formBasicPassword">
+                                    <Form.Control className ="formInput" name="password" type="password" placeholder="Password" value={password} onChange={handleChange}/>
+                                </Form.Group>
 
-                            <Form.Group className="mb-3 d-flex justify-content-center" controlId="formBasicPassword">
-                                <Button className="buttonSubmit" type="submit">
-                                    Login
-                                </Button>
-                            </Form.Group>
+                                <Form.Group className="mb-3 d-flex justify-content-center" controlId="formBasicPassword">
+                                    <Button className="buttonSubmit" type="submit">
+                                        Login
+                                    </Button>
+                                </Form.Group>
 
-                            <Form.Text className="d-flex justify-content-center text-muted">
-                                Don't have an account ? <Link to="/register" className="linkTo" > Klik Here </Link>
-                            </Form.Text>
-                        </Form>
-                    </Card.Body>
-                </Card>
-            </Row>
-        </div>
+                                <Form.Text className="d-flex justify-content-center text-muted">
+                                    Don't have an account ? <Link to="/register" className="linkTo" > Klik Here </Link>
+                                </Form.Text>
+                            </Form>
+                        </Card.Body>
+                    </Card>
+                </Row>
+            </div>
+        </>
     )
 }
