@@ -1,0 +1,50 @@
+.login, .register {
+    width: 100% !important;
+    height: 100%;
+    /* margin: 0; */
+    /* padding: 50px; */
+    color: white;
+    align-items: center;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+.title{
+    font-weight: 800;
+}
+
+.login .card, .register .card {
+    width: 25%;
+    background-color: #1F1F1F;
+    color: white;
+}
+
+.formInput, .formSelect {
+    background-color: #D2D2D240;
+    color: #B1B1B1;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    width: 100%;
+
+}
+
+.formSelect {
+    padding: 8px 0;
+
+}
+
+.buttonSubmit {
+    background-color: #EE4622;
+    color: white;
+    Width: 100%;
+    border-radius: 5px;
+    border: none;
+}
+
+.buttonSubmit:active{
+    background-color: #EE4622;
+    color: white;
+}
+
+.linkTo {
+    color: #B1B1B1;
+}
