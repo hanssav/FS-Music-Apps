@@ -8,6 +8,7 @@ exports.addPayment = async (req, res) => {
             ...dataPayment,
             attache: req.file.filename
         })
+        console.log(req.file.filename)
 
         paymentData = JSON.parse(JSON.stringify(data))
 

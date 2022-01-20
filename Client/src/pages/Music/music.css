@@ -1,13 +1,14 @@
-.addMusic{
+.addArtis, .addMusic{
     font-family: 'Roboto Condensed', sans-serif;
 }
 
-.addMusic .title {
+.addArtis .title, .addMusic .title {
     font-size: 29px;
     font-weight: 700;
+    font-family: 'Roboto Condensed', sans-serif;
 }
 
-.addMusic .button {
+.addArtis .button, .addMusic .button {
     width: 35%;
     border-radius: 5px;
     border: none;
@@ -15,6 +16,10 @@
     color: white;
 }
 
-.addMusic .button:hover {
+.addArtis .button:hover, .addMusic .button:hover {
     background-color: #f19355;
+}
+
+.addMusic .musicUpload {
+    width: 20%;
 }

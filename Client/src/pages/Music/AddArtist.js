@@ -1,15 +1,16 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 import { Form, Button, Container, Alert } from 'react-bootstrap'
 import Navbar from '../../component/Navbarr'
 import "./music.css"
 
 import { API } from "../../config/api"
-// import { UserContext } from '../context/UserContext'
+import { UserContext } from '../../context/UserContext'
 import { useHistory } from 'react-router-dom'
 
 export default function AddArtist() {
     let history = useHistory()
-    // const [state, dispatch] = useContext(UserContext)
+    const [state, dispatch] = useContext(UserContext)
+    console.log(state.user.token)
 
     const title = "Add Artis";
     document.title = "Music Apps | " + title
@@ -38,7 +39,8 @@ export default function AddArtist() {
 
             const config = {
                 headers: {
-                "Content-type": "application/json"
+                    "Content-type": "application/json",
+                    'Accept' : 'application/json',
                 }
             }
 
@@ -53,8 +55,9 @@ export default function AddArtist() {
                 );
                 setMessage(alert)
             }
+            const response = await API.post("/", body, config)
 
-            const response = await API.post("/addartis", body, config)
+            // const response = await API.post("/addartis", body, config)
             console.log(response.data.data)
 
              if (response.data.status === "success") {
@@ -89,7 +92,7 @@ export default function AddArtist() {
 
 
     return (
-        <div className='addMusic'>
+        <div className='addArtis'>
             <Navbar />
             <Container className="mt-5">
                 <Form onSubmit={handleSubmit}>

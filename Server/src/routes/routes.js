@@ -5,11 +5,13 @@ const router = express.Router();
 const { addUser, getUsers, getUser, updateUser, deleteUser } = require('../controllers/user');
 const { addArtis, getArtists, getArtis, updateArtis, deleteArtis } = require('../controllers/artis');
 const { addPayment, getPayments, getPayment, updatePayment, deletePayment } = require('../controllers/payment');
-const {addMusic} = require('../controllers/music')
+const {addMusic, getMusics, getMusic} = require('../controllers/music')
 const { register, login,checkAuth } = require("../controllers/auth")
 
 const { auth } = require("../middlewares/auth")
-const { uploadFile, uploadMusic } = require("../middlewares/uploadFile");
+const { uploadFile } = require("../middlewares/uploadFile");
+const { uploadMusic } = require("../middlewares/uploadMusic");
+
 
 router.post("/register", register) //req done
 router.post("/login", login) // req done
@@ -27,12 +29,13 @@ router.get("/getpayment/:id", getPayment);
 router.put("/updatepayment/:id", updatePayment);
 router.delete("/deletepayment/:id", deletePayment);
 
-router.post("/addartis", addArtis);
+router.post("/addartis", auth, addArtis);
 router.get("/getartists", getArtists);
 router.get("/getartis/:id", getArtis);
 router.put("/updateartis/:id", updateArtis);
 router.delete("/deleteartis/:id", deleteArtis);
 
-router.post("/addmusic", uploadFile("image"), addMusic);
+router.post("/addmusic", uploadMusic("image", "music"), auth, addMusic);
+router.get("/getmusics", getMusics);
 
 module.exports = router;

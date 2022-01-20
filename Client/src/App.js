@@ -3,7 +3,7 @@ import React, {useContext, useEffect} from 'react';
 import Home from "./pages/Home";
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
-import AddMusic from './pages/AddMusic';
+import AddMusic from './pages/Music/AddMusic';
 import AddArtist from './pages/Music/AddArtist';
 import ListTransactions from './pages/ListTransactions';
 import Pay from './pages/Pay';
@@ -17,12 +17,15 @@ import {
 } from "react-router-dom";
 import PrivateRoute from './componentRoutes/PrivateRoutes';
 import { UserContext } from './context/UserContext';
-import {API} from "./config/api"
+import {API, setAuthToken} from "./config/api"
 
+if (localStorage.token) {
+  setAuthToken(localStorage.token)
+}
 
 function App() {
     let history = useHistory();
-    console.log(history)
+    // console.log(history)
     const [state, dispatch] = useContext(UserContext)
 
     useEffect(() => {

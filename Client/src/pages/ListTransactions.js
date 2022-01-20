@@ -25,7 +25,7 @@ export default function ListTransactions() {
             <Navbar />
             <Container style={{ marginTop: "100px" }}>
 
-                <Table style={{ color: "white"}} striped bordered hover>
+                <Table variant="dark" striped bordered hover>
                     <thead>
                         <tr>
                         <th>No</th>
