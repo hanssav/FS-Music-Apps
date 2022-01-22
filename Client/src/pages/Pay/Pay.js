@@ -9,7 +9,7 @@ import { useHistory } from 'react-router-dom'
 import { API } from "../../config/api"
 
 export default function Pay() {
-    console.clear()
+    // console.clear()
 
     const title = "Payment"
     document.title = "Music Apps " + title
@@ -17,12 +17,9 @@ export default function Pay() {
     let history = useHistory()
 
     let [form, setForm] = useState({
-        startDate: "",
-        dueDate: "",
-        userId: "",
+        userId: "8",
         attache: "",
         accountNumber: "",
-        status: ""
 
     })
 
@@ -33,48 +30,30 @@ export default function Pay() {
         })
     }
 
+
     const handleSubmit = async (e) => {
         try {
             e.preventDefault();
-            // const today = new Date();
-            let today = new Date();
-            let dd = String(today.getDate()).padStart(2, '0');
-            let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-            let yyyy = today.getFullYear();
-
-            today = mm + '/' + dd + '/' + yyyy;
-            // console.log(today);
-
-
-            // const thirty_days_from_now = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000)
-
-            // console.log("today: " + today)
-
-            // const Today = String(today)
-            // console.log("nextDay: " + thirty_days_from_now)
 
             const config = {
-                headers: {
-                    "Content-type": "multipart/form-data",
-                    // 'Accept' : 'application/json',
+                Headers: {
+                  "Content-type": "multipart/form-data"
                 }
             }
 
             const formData = new FormData();
-            formData.set("startDate", today)
-            formData.set("dueDate", today)
-            formData.set("userId", 8)
+            // formData.set("userId", 8)
             formData.set("attache", form.image[0], form.image[0].name)
             formData.set("accountNumber", form.accountNumber)
-            formData.set("status", "pending")
 
-            console.log(formData)
-            const response = await API.post("/addpayment", formData, config)
+            console.log(form)
+            console.log(form.image[0])
+            console.log(form.image[0].name)
+
+            const response = await API.post("/addpayment",formData,config)
             console.log(response.data)
 
-            // history.push("/")
-            // const dataPayment = await API.get("/getpayments")
-            // console.log(dataPayment.data)
+            history.push("/")
         } catch (error) {
             console.log(error)
         }

@@ -56,8 +56,6 @@ export default function AddMusic() {
                 "Content-type": "multipart/form-data"
                 }
             }
-
-            // const formData = new FormData()
             const formData = new FormData()
 
             formData.set("image", form.image[0], form.image[0].name);
@@ -65,8 +63,7 @@ export default function AddMusic() {
             formData.set('title', form.title);
             formData.set("year", form.year);
             formData.set("artisId", form.artisId);
-            // console.log(artisID)
-            // console.log(form)
+
             const response = await API.post("/addmusic", formData, config)
             console.log(response.data)
 

@@ -6,9 +6,13 @@ exports.addPayment = async (req, res) => {
     try {
         const { ...dataPayment } = req.body
 
+        let today = new Date();
         const data = await payment.create({
             ...dataPayment,
-            attache: req.file.filename
+            startDate: today,
+            dueDate: today,
+            status: "pending",
+            attache: req.file.filename,
         })
         console.log(req.file.filename)
 

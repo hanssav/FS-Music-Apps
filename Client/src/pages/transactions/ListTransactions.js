@@ -107,7 +107,7 @@ export default function ListTransactions() {
     return (
         <>
             <Navbar />
-            <Container style={{ marginTop: "50px" }}>
+            <Container style={{ marginTop: "50px", marginBottom: "100px" }}>
 
                 <h3 className='text-light mb-5'>Incoming Transactions</h3>
 
@@ -125,13 +125,12 @@ export default function ListTransactions() {
                     </thead>
                     <tbody>
                     {
-                            payment.map((items) => {
+                            payment.map((items, index) => {
                             console.log(payment.length)
                             // console.log(getDay(new Date(items.dueDate), new Date(items.startDate)))
                             return (
-                                <tr key={items.id}>
-                                    <td>{"1"
-                                    }</td>
+                                <tr key={index}>
+                                    <td>{index + 1}</td>
                                     <td>{items.user.fullName}</td>
                                     <td>{items.attache}</td>
                                     <td>{getDay(new Date(items.dueDate), new Date(items.startDate))} / Hari</td>
