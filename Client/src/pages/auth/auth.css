@@ -47,6 +47,16 @@
     color: white;
 }
 
+.buttonSubmit:active{
+    background-color: #f15532;
+    color: white;
+}
+
+.buttonSubmit{
+    background-color: #f15532;
+    color: white;
+}
+
 .linkTo {
     color: #B1B1B1;
 }

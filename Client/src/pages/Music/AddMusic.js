@@ -15,7 +15,6 @@ export default function AddMusic() {
     let history = useHistory()
 
     const [artis, setArtis] = useState([])
-    const [artisID, setArtisId] = useState([])
     const [preview, setPreview] = useState(null)
 
     let [form, setForm] = useState({
@@ -35,21 +34,6 @@ export default function AddMusic() {
             console.log(error)
         }
     }
-
-    // const handleArtisId = (e) => {
-    //     const id = e.target.value;
-    //     const checked = e.target.cheked
-
-    //     if (checked) {
-    //         setArtisId([...artisId, parseInt(id)])
-
-    //     } else {
-    //         let newArtisId = artisId.filter((artisIdItem) => {
-    //             return artisIdItem !== id
-    //         })
-    //         setArtisId(newArtisId)
-    //     }
-    // }
 
     const handleChange = async (e) => {
         setForm({

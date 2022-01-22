@@ -1,15 +1,19 @@
 import { React, useContext } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import { Navbar, Container, NavDropdown } from 'react-bootstrap'
-// import { Image, Dropdown, Container, Nav, NavDropdown } from 'react-bootstrap'
+import {Navbar, Nav, NavDropdown, Container, Image, Button, Dropdown} from 'react-bootstrap'
+import { Link, useHistory } from "react-router-dom";
+import { UserContext } from '../context/UserContext';
 
 import Logo from "../public/images/logo.png"
 import TextLogo from "../public/images/textlogo.png"
+import UserIcon from "../public/icons/imageUser.png"
+import AdminIcon from "../public/icons/imageAdmin.png"
+import PayIcon from "../public/icons/payIcon.png"
+import MusicIcon from "../public/icons/musicIcons.png"
+import LogoutIcon from "../public/icons/logoutIcon.png"
+import ArtisIcon from "../public/icons/artisIcon.png"
 
-import {Navbar, Nav, NavDropdown, Container, Image, Button} from 'react-bootstrap'
-import { Link, useHistory } from "react-router-dom";
-
-import { UserContext } from '../context/UserContext'
+import "./navbar.css"
 
 function UserNav() {
     const [, dispatch] = useContext(UserContext)
@@ -29,21 +33,21 @@ function UserNav() {
                 <Nav className="me-auto">
                     <NavDropdown
                         title={
-                            <Image src={""} roundedCircle style={{ width: '40px', height: '40px' }
-                            } />}
-                        id="basic-nav-dropdown">
+                            <Image className='iconImage' src={UserIcon} roundedCircle style={{ width: '40px', height: '40px' }
+                            } />} id="dropdown-menu-align-end" className='navDrop' align="end">
                         <NavDropdown.Item>
-                            <Link to="/pay" onClick={""} className='profile d-flex'>
-                                <Image src={""} thumbnail style={{ height: '30px', }} />
-                                <h6 style={{color: "black"}}>Pay</h6>
+                            <Link to="/pay" onClick={""} className='profile d-flex align-items-center'>
+                                <Image className='iconImage' src={PayIcon} thumbnail />
+                                <h6 className='textLink'>Pay</h6>
                             </Link>
                         </NavDropdown.Item>
 
                         <NavDropdown.Divider />
 
                         <NavDropdown.Item>
-                            <Link to="/" onClick={handleLogout} className='profile'>
-                                <Image src={""} thumbnail style={{ height: '30px' }} /> Logout
+                            <Link to="/" onClick={handleLogout} className='profile d-flex align-items-center'>
+                                <Image className='iconImage' src={LogoutIcon} thumbnail />
+                                <h6 className='textLink'>Logout</h6>
                             </Link>
                         </NavDropdown.Item>
                     </NavDropdown>
@@ -65,50 +69,43 @@ function AdminNav() {
     }
 
     return (
-        <div>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="me-auto">
-                    <NavDropdown
-                        title={
-                            <Image src={""} roundedCircle style={{ width: '40px', height: '40px' }
-                            } />}
-                        id="basic-nav-dropdown">
+        <>
+            <NavDropdown
+                title={
+                    <Image className='iconImage' src={AdminIcon} roundedCircle style={{ width: '40px', height: '40px' }
+                    } />} className="navDrop"
+                    >
 
-                        <NavDropdown.Item>
-                            <Link to="/listtransactions" onClick={""} className='profile d-flex'>
-                                <Image src={""} thumbnail style={{ height: '30px', }} />
-                                <h6 style={{color: "black"}}>List Transactions</h6>
-                            </Link>
-                        </NavDropdown.Item>
+                <Dropdown.Item>
+                    <Link to="/listtransactions" onClick={""} className='profile d-flex align-items-center'>
+                        <Image className="iconImage" src={PayIcon} thumbnail />
+                        <h6 className="textLink">List Transactions</h6>
+                    </Link>
+                </Dropdown.Item>
+                <Dropdown.Item>
+                    <Link to="/addmusic"
+                        onClick={""}
+                        className='profile d-flex align-items-center'>
+                        <Image className="iconImage" src={MusicIcon} thumbnail />
+                        <h6 className="textLink">Add Music</h6>
+                    </Link>
+                </Dropdown.Item>
+                <Dropdown.Item>
+                    <Link to="/addartis" onClick={""} className='profile d-flex align-items-center'>
+                        <Image className="iconImage" src={ArtisIcon} thumbnail />
+                         <h6 className="textLink">Add Artis</h6>
+                     </Link>
+                </Dropdown.Item>
 
-                        <NavDropdown.Item>
-                            <Link to="/addmusic"
-                                onClick={""}
-                                className='profile d-flex'>
-                                <Image src={""} thumbnail style={{ height: '30px', }} />
-                                <h6 style={{color: "black"}}>Add Music</h6>
-                            </Link>
-                        </NavDropdown.Item>
-
-                        <NavDropdown.Item>
-                            <Link to="/addartis" onClick={""} className='profile d-flex'>
-                                <Image src={""} thumbnail style={{ height: '30px', }} />
-                                <h6 style={{color: "black"}}>Add Artis</h6>
-                            </Link>
-                        </NavDropdown.Item>
-
-                        <NavDropdown.Divider />
-
-                        <NavDropdown.Item>
-                            <Link to="/" onClick={handleLogout} className='profile'>
-                                <Image src={""} thumbnail style={{ height: '30px' }} /> Logout
-                            </Link>
-                        </NavDropdown.Item>
-                    </NavDropdown>
-                </Nav>
-            </Navbar.Collapse>
-        </div>
+                <Dropdown.Divider />
+                <Dropdown.Item>
+                    <Link to="/" onClick={handleLogout} className='profile d-flex align-items-center'>
+                        <Image className="iconImage" src={LogoutIcon} thumbnail />
+                        <h6 className="textLink"> Logout</h6>
+                    </Link>
+                </Dropdown.Item>
+            </NavDropdown>
+        </>
     )
 }
 
@@ -127,10 +124,10 @@ function GuestPage() {
 
 function Navbarr() {
     const [state] = useContext(UserContext)
-    console.log(state)
+    // console.log(state)
 
     return (
-        <Navbar expand="lg my-3">
+        <Navbar expand="lg my-3 mx-3">
             <Container fluid className="d-flex justify-content-between mx-5" style={{}}>
                 <div>
                     <Link to="/" className='logo'>
@@ -143,6 +140,8 @@ function Navbarr() {
 
                 <div className='mr-4'>
                     {!state.isLogin ? (
+                        // <AdminNav />
+                        // <UserNav />
                         <GuestPage />
                     ) : (
                         state.user.listAs === "1" ? (

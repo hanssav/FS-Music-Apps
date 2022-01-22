@@ -55,9 +55,9 @@ export default function AddArtist() {
                 );
                 setMessage(alert)
             }
-            const response = await API.post("/", body, config)
-
             // const response = await API.post("/addartis", body, config)
+
+            const response = await API.post("/addartis", body, config)
             console.log(response.data.data)
 
              if (response.data.status === "success") {

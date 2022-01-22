@@ -1,4 +1,6 @@
-const { payment } = require("../../models")
+const { payment, user } = require("../../models")
+
+let FILE_PATH = 'http://localhost:5001/uploads/'
 
 exports.addPayment = async (req, res) => {
     try {
@@ -20,6 +22,7 @@ exports.addPayment = async (req, res) => {
             }
         })
     } catch (error) {
+        console.log(error)
         res.send(500).send({
             status: "failed",
             message: "server error"
@@ -29,11 +32,22 @@ exports.addPayment = async (req, res) => {
 
 exports.getPayments = async (req, res) => {
     try {
-        const data = await payment.findAll({
+        let data = await payment.findAll({
+            include: {
+                model: user,
+                as: "user",
+                attributes: {
+                    exclude: ['createdAt', 'password', 'listAs', 'updatedAt']
+                }
+            },
             attributes: {
                 exclude: ['createdAt', 'updatedAt']
             }
         })
+
+        data = JSON.parse(JSON.stringify(data))
+
+        // console.log(paymentData)
 
         res.status(200).send({
             status: "success",
@@ -41,7 +55,7 @@ exports.getPayments = async (req, res) => {
         })
 
     } catch (error) {
-        // console.log(error)
+        console.log(error)
         res.status(500).send({
             status: "failed",
             message: "server error"
@@ -127,6 +141,144 @@ exports.updatePayment = async (req, res) => {
             status: "success",
             message: `Update data payment id ${id} Successfuly`,
             data: dataUpdated
+        })
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({
+            status: "failed",
+            message: 'Server Error'
+        })
+    }
+}
+
+exports.updateStatusApproved = async (req, res) => {
+
+
+    try {
+        const { id } = req.params
+
+        let data = await payment.findOne({
+            where: {
+                id
+            },
+            arttributes: {
+                exclude: ['createdAt', 'updatedAt']
+            }
+        })
+
+        data = JSON.parse(JSON.stringify(data))
+
+        console.log(data.status)
+
+        // let today1 = Date.now()
+        let today = new Date();
+        let thirty_days_from_now = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000)
+
+        if (data.status === "pending") {
+            await payment.update({
+                status: "approved",
+                startDate: today,
+                dueDate: thirty_days_from_now,
+            }, {
+                where: {
+                id : id
+                }
+            })
+        } else {
+            await payment.update({
+                status: "approved",
+                startDate: today,
+                dueDate: thirty_days_from_now,
+            }, {
+                where: {
+                id : id
+                }
+            })
+        }
+
+        let newData = await payment.findOne({
+            where: {
+                id
+            },
+            arttributes: {
+                exclude: ['createdAt', 'updatedAt']
+            }
+        })
+
+        res.status(200).send({
+            status: "success",
+            message: `Update data payment id ${id} Successfuly`,
+            newData,
+            today,
+            thirty_days_from_now
+        })
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({
+            status: "failed",
+            message: 'Server Error'
+        })
+    }
+}
+
+exports.updateStatusCancel = async (req, res) => {
+    try {
+        const { id } = req.params
+
+        let data = await payment.findOne({
+            where: {
+                id
+            },
+            arttributes: {
+                exclude: ['createdAt', 'updatedAt']
+            }
+        })
+
+        data = JSON.parse(JSON.stringify(data))
+
+        console.log(data.status)
+
+        // let today1 = Date.now()
+        let today = new Date();
+        let thirty_days_from_now = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000)
+
+        if (data.status === "approved") {
+            await payment.update({
+                status: "cancel",
+                startDate: today,
+                dueDate: today,
+            }, {
+                where: {
+                id : id
+                }
+            })
+        } else {
+            await payment.update({
+                status: "cancel",
+                startDate: today,
+                dueDate: today,
+            }, {
+                where: {
+                id : id
+                }
+            })
+        }
+
+        let newData = await payment.findOne({
+            where: {
+                id
+            },
+            arttributes: {
+                exclude: ['createdAt', 'updatedAt']
+            }
+        })
+
+        res.status(200).send({
+            status: "success",
+            message: `Update data payment id ${id} Successfuly`,
+            newData
         })
 
     } catch (error) {

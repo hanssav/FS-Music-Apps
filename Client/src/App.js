@@ -1,12 +1,12 @@
 import React, {useContext, useEffect} from 'react';
 
-import Home from "./pages/Home";
+import Home from "./pages/Home/Home";
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import AddMusic from './pages/Music/AddMusic';
 import AddArtist from './pages/Music/AddArtist';
-import ListTransactions from './pages/ListTransactions';
-import Pay from './pages/Pay';
+import ListTransactions from './pages/transactions/ListTransactions';
+import Pay from './pages/Pay/Pay';
 
 import {
   BrowserRouter as Router,
@@ -75,8 +75,8 @@ function App() {
                 <Route exact path="/register" component={Register} />
                 <PrivateRoute exact path="/addmusic" component={AddMusic} />
                 <PrivateRoute exact path="/addartis" component={AddArtist} />
-                <PrivateRoute exact path="/listtransactions" component={ListTransactions} />
-                <PrivateRoute exact path="/pay" component={Pay} />
+                <Route exact path="/listtransactions" component={ListTransactions} />
+                <Route exact path="/pay" component={Pay} />
             </Switch>
         </Router>
   );
