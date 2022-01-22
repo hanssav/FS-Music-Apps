@@ -1,15 +1,18 @@
-import React, { useState} from 'react'
+import React, { useState, useContext} from 'react'
 
 import { Container, Form, Button } from 'react-bootstrap'
-
-import Navbar from '../../component/Navbarr'
-import "./pay.css"
-
 import { useHistory } from 'react-router-dom'
 import { API } from "../../config/api"
 
+import Navbar from '../../component/Navbarr'
+import "./pay.css"
+import { UserContext } from '../../context/UserContext'
+
+
 export default function Pay() {
     // console.clear()
+    const [state] = useContext(UserContext)
+    console.log(state.user.id)
 
     const title = "Payment"
     document.title = "Music Apps " + title
@@ -17,8 +20,8 @@ export default function Pay() {
     let history = useHistory()
 
     let [form, setForm] = useState({
-        // userId: "8",
-        attache: "",
+        userId: "",
+        image: "",
         accountNumber: "",
 
     })
@@ -68,15 +71,19 @@ export default function Pay() {
                 }
             }
 
-            
+
             const formData = new FormData()
-            formData.set("userId", 8)
-            formData.set("attache", form.image[0], form.image[0].name)
+            formData.set("userId", state.user.id)
+            formData.set("image", form.image[0], form.image[0].name)
             formData.set("accountNumber", form.accountNumber)
 
-            const response = await API.post('/addpayment',formData,config)
+            console.log(form)
+            console.log(form.image[0])
+            console.log(form.image[0].name)
+
+            const response = await API.post('/addpayment', formData, config)
             history.push("/")
-            console.log("response",response)
+            console.log("response ", response)
             // setLoading(false)
         } catch (error) {
             // setLoading(false)

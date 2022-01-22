@@ -76,7 +76,7 @@ function App() {
                 <PrivateRoute exact path="/addmusic" component={AddMusic} />
                 <PrivateRoute exact path="/addartis" component={AddArtist} />
                 <PrivateRoute exact path="/listtransactions" component={ListTransactions} />
-                <Route exact path="/pay" component={Pay} />
+                <PrivateRoute exact path="/pay" component={Pay} />
             </Switch>
         </Router>
   );
