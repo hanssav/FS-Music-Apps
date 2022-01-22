@@ -12,6 +12,7 @@ import PayIcon from "../public/icons/payIcon.png"
 import MusicIcon from "../public/icons/musicIcons.png"
 import LogoutIcon from "../public/icons/logoutIcon.png"
 import ArtisIcon from "../public/icons/artisIcon.png"
+import Polygon from "../public/icons/Polygon.png"
 
 import "./navbar.css"
 
@@ -31,10 +32,13 @@ function UserNav() {
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto">
-                    <NavDropdown
+                    <NavDropdown id="dropdown-menu-align-start "
                         title={
-                            <Image className='iconImage' src={UserIcon} roundedCircle style={{ width: '40px', height: '40px' }
-                            } />} id="dropdown-menu-align-end" className='navDrop' align="end">
+                            <Image className='iconImage mb-3' src={UserIcon} roundedCircle style={{ width: '40px', height: '40px' }
+                            }/>}className='navDrop' >
+
+                        <Image src={Polygon} alt="ico" className="position-absolute" style={{ top: "-20px", right: "75%", width: "30px" }}/>
+
                         <NavDropdown.Item>
                             <Link to="/pay" onClick={""} className='profile d-flex align-items-center'>
                                 <Image className='iconImage' src={PayIcon} thumbnail />
@@ -69,19 +73,21 @@ function AdminNav() {
     }
 
     return (
-        <>
-            <NavDropdown
+        <div className='navGrid d-flex justify-content-end'>
+            <NavDropdown className= "navDrop" align="end" id="dropdown-menu-align-end"
                 title={
-                    <Image className='iconImage' src={AdminIcon} roundedCircle style={{ width: '40px', height: '40px' } 
-                    } />} className="navDrop"
-                    >
+                    <Image className='iconImage mb-3' src={AdminIcon} roundedCircle style={{ width: '40px', height: '40px' }
+                    } width="50px" height="50px" />}
+            >
+                <Image src={Polygon} alt="ico" className="position-absolute" style={{ top: "-20px", right: "72%", width: "30px" }}/>
+
             {/* <NavDropdown align="end" title={<img src={Ava} width="50px" height="50px" alt="" className="rounded-circle" />} id="dropdown-menu-align-end"> */}
-                <Dropdown.Item>
+                {/* <Dropdown.Item>
                     <Link to="/listtransactions" onClick={""} className='profile d-flex align-items-center'>
                         <Image className="iconImage" src={PayIcon} thumbnail />
                         <h6 className="textLink">List Transactions</h6>
                     </Link>
-                </Dropdown.Item>
+                </Dropdown.Item> */}
                 <Dropdown.Item>
                     <Link to="/addmusic"
                         onClick={""}
@@ -105,7 +111,7 @@ function AdminNav() {
                     </Link>
                 </Dropdown.Item>
             </NavDropdown>
-        </>
+        </div>
     )
 }
 
