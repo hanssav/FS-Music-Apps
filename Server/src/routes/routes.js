@@ -24,14 +24,14 @@ router.put("/updateuser/:id", updateUser);
 router.delete("/deleteuser/:id", deleteUser);
 
 router.post("/addpayment", uploadFile("image"), addPayment  );
-router.get("/getpayments", getPayments);
+router.get("/getpayments", auth, getPayments);
 router.get("/getpayment/:id", getPayment);
 router.put("/updatepayment/:id", updatePayment);
 router.delete("/deletepayment/:id", deletePayment);
-router.put("/updatestatusapproved/:id", updateStatusApproved);
-router.put("/updatestatuscancel/:id", updateStatusCancel);
+router.put("/updatestatusapproved/:id", auth, updateStatusApproved);
+router.put("/updatestatuscancel/:id", auth, updateStatusCancel);
 
-router.post("/addartis", addArtis);
+router.post("/addartis", auth, addArtis);
 router.get("/getartists", getArtists);
 router.get("/getartis/:id", getArtis);
 router.put("/updateartis/:id", updateArtis);

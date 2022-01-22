@@ -9,7 +9,7 @@ import { useHistory } from 'react-router-dom'
 
 export default function AddArtist() {
     let history = useHistory()
-    const [state, dispatch] = useContext(UserContext)
+    const [state] = useContext(UserContext)
     console.log(state.user.token)
 
     const title = "Add Artis";
@@ -40,7 +40,7 @@ export default function AddArtist() {
             const config = {
                 headers: {
                     "Content-type": "application/json",
-                    'Accept' : 'application/json',
+                    // 'Accept' : 'application/json',
                 }
             }
 
@@ -67,7 +67,7 @@ export default function AddArtist() {
                 );
                 setMessage(alert);
 
-                history.push("/")
+                history.push("/listtransactions")
 
             } else {
                 const alert = (
@@ -101,19 +101,19 @@ export default function AddArtist() {
                     </Form.Group>
 
                     <Form.Group className="mb-4" controlId="formBasicText">
-                        <Form.Control className='formInput' name="name" type="text" placeholder="Name" onChange={handleChange} value={ name }/>
+                        <Form.Control className='bg-dark text-light' name="name" type="text" placeholder="Name" onChange={handleChange} value={ name }/>
                     </Form.Group>
 
                     <Form.Group className="mb-4" controlId="formBasicText">
-                        <Form.Control className='formInput' name ="old" type="text" placeholder="Old" onChange={ handleChange } value={ old }/>
+                        <Form.Control className='bg-dark text-light' name ="old" type="text" placeholder="Old" onChange={ handleChange } value={ old }/>
                     </Form.Group>
 
                     <Form.Group className="mb-4" controlId="formBasicText">
-                        <Form.Control className='formInput' name="type" type="text" placeholder="Solo" onChange={ handleChange } value={ type }/>
+                        <Form.Control className='bg-dark text-light' name="type" type="text" placeholder="Solo" onChange={ handleChange } value={ type }/>
                     </Form.Group>
 
                     <Form.Group className="mb-4" controlId="formBasicText">
-                        <Form.Control className='formInput' name="startCareer" type="text" placeholder="Start a Career" onChange={ handleChange } value={ startCareer }/>
+                        <Form.Control className='bg-dark text-light' name="startCareer" type="text" placeholder="Start a Career" onChange={ handleChange } value={ startCareer }/>
                     </Form.Group>
 
                     <Form.Group className="mt-3 d-flex justify-content-center" controlId="formBasicPassword">

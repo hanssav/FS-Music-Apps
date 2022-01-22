@@ -17,7 +17,7 @@ export default function Pay() {
     let history = useHistory()
 
     let [form, setForm] = useState({
-        userId: "8",
+        // userId: "8",
         attache: "",
         accountNumber: "",
 
@@ -31,33 +31,58 @@ export default function Pay() {
     }
 
 
-    const handleSubmit = async (e) => {
+    // const handleSubmit = async (e) => {
+    //     try {
+    //         e.preventDefault();
+
+    //         const config = {
+    //             headers: {
+    //               "Content-type": "multipart/form-data"
+    //             }
+    //         }
+
+    //         const formData = new FormData();
+    //         // formData.set("userId", 8)
+    //         // formData.set("attache", form.image[0], form.image[0].name)
+    //         formData.set("accountNumber", form.accountNumber)
+
+    //         console.log(form)
+    //         console.log(form.image[0])
+    //         console.log(form.image[0].name)
+
+    //         const response = await API.post("/addpayment",formData,config)
+    //         console.log(response.data)
+
+    //         history.push("/")
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
+
+     const handleSubmit = async (e) => {
         try {
             e.preventDefault();
-
             const config = {
                 Headers: {
                   "Content-type": "multipart/form-data"
                 }
             }
 
-            const formData = new FormData();
-            // formData.set("userId", 8)
+            
+            const formData = new FormData()
+            formData.set("userId", 8)
             formData.set("attache", form.image[0], form.image[0].name)
             formData.set("accountNumber", form.accountNumber)
 
-            console.log(form)
-            console.log(form.image[0])
-            console.log(form.image[0].name)
-
-            const response = await API.post("/addpayment",formData,config)
-            console.log(response.data)
-
+            const response = await API.post('/addpayment',formData,config)
             history.push("/")
+            console.log("response",response)
+            // setLoading(false)
         } catch (error) {
-            console.log(error)
+            // setLoading(false)
+            console.log(error.message)
         }
-    }
+     }
 
     return (
         <div className="main-pay">

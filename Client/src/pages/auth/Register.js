@@ -102,37 +102,36 @@ export default function Register() {
                                 <h3 className="title" >Register</h3>
                             </Form.Group>
 
-                            <Form.Group className="mb-2" controlId="formBasicEmail">
-                                <Form.Control onChange={handleOnChange} className="formInput" name="email" type="email" placeholder="Enter email" value={ email }/>
+                            <Form.Group className="mb-3" controlId="formBasicEmail">
+                                <Form.Control onChange={handleOnChange} className="bg-dark text-light" name="email" type="email" placeholder="Enter email" value={ email }/>
                             </Form.Group>
 
-                            <Form.Group className="mb-2" controlId="formBasicPassword">
-                                <Form.Control onChange={handleOnChange} className="formInput" name="password" type="password" placeholder="Password" value={ password }/>
+                            <Form.Group className="mb-3" controlId="formBasicPassword">
+                                <Form.Control onChange={handleOnChange} className="bg-dark text-light" name="password" type="password" placeholder="Password" value={ password }/>
                             </Form.Group>
 
-                            <Form.Group className="mb-2" controlId="formBasicText">
-                                <Form.Control onChange={handleOnChange} className="formInput" name="fullName" type="text" placeholder="Enter Full Name" value={ fullName }/>
+                            <Form.Group className="mb-3" controlId="formBasicText">
+                                <Form.Control onChange={handleOnChange} className="bg-dark text-light" name="fullName" type="text" placeholder="Enter Full Name" value={ fullName }/>
                             </Form.Group>
 
-                            <Form.Group className="mb-2" controlId="formBasicText">
-                                <Form.Select onChange={handleOnChange} className="formSelect" aria-label="Default select example" name="gender" placeholder="Gender" value={gender}>
-                                    <option value="" disabled selected>Gender</option>
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
+                            <Form.Group className="mb-3" controlId="formBasicText">
+                                <Form.Select onChange={handleOnChange} className="bg-dark text-light w-100 py-2" aria-label="Default select example" name="gender" placeholder="Gender" value={gender}>
+                                    <option className='bg-dark text-light' value="" disabled selected>Gender</option>
+                                    <option className='bg-dark text-light' value="male">Male</option>
+                                    <option className='bg-dark text-light' value="female">Female</option>
                                 </Form.Select>
                             </Form.Group>
 
-                            <Form.Group className="mb-2" controlId="formBasicText">
-                                <Form.Control onChange={handleOnChange} className="formInput" name="phone" type="number" placeholder="Phone" value={ phone }/>
+                            <Form.Group className="mb-3" controlId="formBasicText">
+                                <Form.Control onChange={handleOnChange} className="bg-dark text-light" name="phone" type="number" placeholder="Phone" value={ phone }/>
                             </Form.Group>
 
                             <Form.Group className="mb-4" controlId="formBasicText">
-                                <Form.Control onChange={handleOnChange} className="formInput" name="address" type="text" placeholder="Address" value={address} as="textarea" style={{resize: "none", height: "50px"}}/>
+                                <Form.Control onChange={handleOnChange} className="bg-dark text-light" name="address" type="text" placeholder="Address" value={address} as="textarea" style={{resize: "none", height: "50px"}}/>
                             </Form.Group>
 
                             <Form.Group className="my-3 d-flex justify-content-center" controlId="formBasicSubmit">
-                                <Button className="buttonSubmit" type="submit">
-                                    Submit
+                                <Button className="text-light" variant="warning" type="submit" style={{width: "100%", backgroundColor: "#f15532"}}>Register
                                 </Button>
                             </Form.Group>
 

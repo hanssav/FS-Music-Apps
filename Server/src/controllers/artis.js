@@ -1,8 +1,24 @@
 const { artis } = require("../../models")
+const Joi = require("joi")
 
 exports.addArtis = async (req, res) => {
     try {
         const dataArtis = req.body
+
+        const schema = Joi.object({
+            name: Joi.string().min(4).required(),
+            old: Joi.number().min(1).required(),
+            type: Joi.string().min(3).required(),
+            startCareer: Joi.string().min(4).required()
+        })
+
+        const { error } = schema.validate(dataArtis)
+
+        if(error) {
+            return res.status(400).send({
+                message: error.details[0].message
+            })
+        };
 
         const createdArtis = await artis.create(dataArtis)
 

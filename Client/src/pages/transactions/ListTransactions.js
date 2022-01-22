@@ -4,14 +4,15 @@ import { Container, Table, Dropdown, Button } from 'react-bootstrap'
 
 import Navbar from '../../component/Navbarr'
 
-import {API} from "../../config/api"
+import { API } from "../../config/api"
+import "./listTransactions.css"
 
 
 function DropDown(props) {
     // console.log(props)
     return (
         <Dropdown>
-            <Dropdown.Toggle className="dropdown-toggle btn btn-primary" style={{backgroundColor: "rgba(76, 175, 80, 0)", border: "none"}}
+            <Dropdown.Toggle className="dropdown-toggle" style={{backgroundColor: "rgba(76, 175, 80, 0)", border: "none"}}
             id="dropdown-basic">
             </Dropdown.Toggle>
 

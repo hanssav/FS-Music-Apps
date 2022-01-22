@@ -91,17 +91,16 @@ export default function Login() {
                                     <h3 className= "title"> Login</h3>
                                 </Form.Group>
 
-                                <Form.Group className="mb-2" controlId="formBasicEmail">
-                                    <Form.Control className="formInput" name="email" type="email" placeholder="Enter email" value={email} onChange={handleChange}/>
+                                <Form.Group className="mb-3" controlId="formBasicEmail">
+                                    <Form.Control className="bg-dark text-light" name="email" type="email" placeholder="Enter email" value={email} onChange={handleChange}/>
                                 </Form.Group>
 
                                 <Form.Group className="mb-4" controlId="formBasicPassword">
-                                    <Form.Control className ="formInput" name="password" type="password" placeholder="Password" value={password} onChange={handleChange}/>
+                                    <Form.Control className ="bg-dark text-light" name="password" type="password" placeholder="Password" value={password} onChange={handleChange}/>
                                 </Form.Group>
 
                                 <Form.Group className="mb-3 d-flex justify-content-center" controlId="formBasicPassword">
-                                    <Button className="buttonSubmit" type="submit">
-                                        Login
+                                    <Button className="text-light" variant="warning" type="submit" style={{width: "100%", backgroundColor: "#f15532"}}>Login
                                     </Button>
                                 </Form.Group>
 

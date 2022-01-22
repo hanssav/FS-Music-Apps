@@ -72,10 +72,10 @@ function AdminNav() {
         <>
             <NavDropdown
                 title={
-                    <Image className='iconImage' src={AdminIcon} roundedCircle style={{ width: '40px', height: '40px' }
+                    <Image className='iconImage' src={AdminIcon} roundedCircle style={{ width: '40px', height: '40px' } 
                     } />} className="navDrop"
                     >
-
+            {/* <NavDropdown align="end" title={<img src={Ava} width="50px" height="50px" alt="" className="rounded-circle" />} id="dropdown-menu-align-end"> */}
                 <Dropdown.Item>
                     <Link to="/listtransactions" onClick={""} className='profile d-flex align-items-center'>
                         <Image className="iconImage" src={PayIcon} thumbnail />
