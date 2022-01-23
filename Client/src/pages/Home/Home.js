@@ -1,15 +1,22 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useContext} from 'react'
 import { Container, Col, Row } from 'react-bootstrap'
+import { useHistory } from 'react-router-dom'
 
 import Hero from '../../component/Home/Hero'
 import Card from '../../component/Home/CardHome'
 import "./home.css"
+import MusicPlayer from '../../component/Home/MusicPlayer'
 
-import {API} from "../../config/api"
+import { API } from "../../config/api"
+import { UserContext } from '../../context/UserContext'
 
 
 export default function Home() {
     const [music, setMusic] = useState([])
+    const [state] = useContext(UserContext);
+    const [selectedMusic, setSelectedMusic] = useState(0);
+
+    let history = useHistory()
 
     const getMusic = async () => {
         try {
@@ -24,6 +31,16 @@ export default function Home() {
     useEffect(() => {
         getMusic()
     }, [])
+
+    const selectMusic = (index) => {
+        if (!state.isLogin) {
+            setSelectedMusic(index);
+        } else {
+            // handleShowLogin();
+            history.push('/login')
+        }
+    };
+
     return (
         <Container fluid className='home'>
             <div className='bgImageHero'>
@@ -38,10 +55,10 @@ export default function Home() {
 
                 <Row className='cardMusic mx-5 m-0'>
 
-                    {music.map((a) => {
+                    {music.map((a, i) => {
                             console.log(a)
                             return (
-                                <Col className="d-flex justify-content-center">
+                                <Col onClick={() => selectMusic(i)} className="d-flex justify-content-center">
                                     <Card
                                         key={a.id}
                                         id={a.id}
@@ -55,7 +72,7 @@ export default function Home() {
                         })}
                 </Row>
             </div>
-
+            <MusicPlayer musics={music} selectedMusicIndex={selectedMusic} />
         </Container>
     )
 }
