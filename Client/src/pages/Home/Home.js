@@ -10,13 +10,25 @@ import MusicPlayer from '../../component/Home/MusicPlayer'
 import { API } from "../../config/api"
 import { UserContext } from '../../context/UserContext'
 
+import Login from '../auth/Login'
+import Register from '../auth/Register'
+
 
 export default function Home() {
     const [music, setMusic] = useState([])
+    const [payments, setPayments] = useState([])
+    const [userId, setUserId] = useState()
+
     const [state] = useContext(UserContext);
     const [selectedMusic, setSelectedMusic] = useState(0);
 
+    console.log(state.isLogin)
+
     let history = useHistory()
+
+    // if (state.isLogin) {
+    //     setUserId(state.user.id)
+    // }
 
     const getMusic = async () => {
         try {
@@ -28,19 +40,54 @@ export default function Home() {
         }
     }
 
+    const getStatusPayment = async () => {
+        console.log(state.user.id)
+        try {
+            const response = await API.get("/getpayments")
+            setPayments(response.data.data)
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    // console.log(payments)
+
     useEffect(() => {
-        getMusic()
+        getMusic();
+        // getStatusPayment();
     }, [])
 
-    const selectMusic = (index) => {
-        if (!state.isLogin) {
-            setSelectedMusic(index);
-        } else {
-            // handleShowLogin();
-            history.push('/login')
-        }
+    const [showLogin, setShowLogin] = useState(false);
+    const handleCloseLogin = () => setShowLogin(false);
+    const handleShowLogin = () => setShowLogin(true);
+    const [showRegister, setShowRegister] = useState(false);
+    const handleCloseRegister = () => setShowRegister(false);
+    const handleShowRegister = () => setShowRegister(true);
+
+    const registerModalProps = {
+        showRegister,
+        handleCloseRegister,
+        handleShowLogin,
     };
 
+    const loginModalProps = {
+        showLogin,
+        handleCloseLogin,
+        handleShowRegister,
+    };
+
+    const selectMusic = (index) => {
+        // console.log(index)
+        if (state.isLogin) {
+            setSelectedMusic(index);
+        } else {
+            handleShowLogin();
+            // history.push('/login')
+        }
+    };
+    // console.log(selectedMusic)
+
+    // console.log(music)
     return (
         <Container fluid className='home'>
             <div className='bgImageHero'>
@@ -56,9 +103,14 @@ export default function Home() {
                 <Row className='cardMusic mx-5 m-0'>
 
                     {music.map((a, i) => {
-                            console.log(a)
+                        // console.log(music)
+                            // console.log(a)
                             return (
-                                <Col onClick={() => selectMusic(i)} className="d-flex justify-content-center">
+                                <Col onClick={() => selectMusic(i)} className="d-flex justify-content-center"
+                                    style={{
+                                        // width: "12rem",
+                                        cursor: "pointer"
+                                    }}>
                                     <Card
                                         key={a.id}
                                         id={a.id}
@@ -71,8 +123,16 @@ export default function Home() {
                             )
                         })}
                 </Row>
+                {/* {state.islogin === true && */}
+                {state.isLogin ? (
+                    <MusicPlayer musics={music} selectedMusicIndex={selectedMusic} />
+                ): (
+                    <></>
+                )}
+            {/* } */}
             </div>
-            <MusicPlayer musics={music} selectedMusicIndex={selectedMusic} />
+            <Login {...loginModalProps} />
+            <Register {...registerModalProps} />
         </Container>
     )
 }

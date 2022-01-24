@@ -73,7 +73,7 @@ function App() {
                 <Route exact path="/" component={Home} />
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/register" component={Register} />
-                <PrivateRoute exact path="/addmusic" component={AddMusic} />
+                <Route exact path="/addmusic" component={AddMusic} />
                 <PrivateRoute exact path="/addartis" component={AddArtist} />
                 <PrivateRoute exact path="/listtransactions" component={ListTransactions} />
                 <PrivateRoute exact path="/pay" component={Pay} />

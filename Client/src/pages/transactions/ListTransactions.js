@@ -75,7 +75,8 @@ export default function ListTransactions() {
         // console.log(dueDate)
         let day1 = convertDate(dueDate)
         let day2 = convertDate(startDate)
-        // console.log(day2)
+        console.log(day2)
+
 
         let difference= Math.abs(new Date(day1) - new Date(day2));
         return difference / (1000 * 3600 * 24)
@@ -128,32 +129,37 @@ export default function ListTransactions() {
                     {
                             payment.map((items, index) => {
                             console.log(payment.length)
-                            // console.log(getDay(new Date(items.dueDate), new Date(items.startDate)))
+                            // console.log(getDay(new Date(items.dueDate), new Date()))
+                                console.log(new Date(items.dueDate) >= new Date())
                             return (
                                 <tr key={index}>
                                     <td>{index + 1}</td>
                                     <td>{items.user.fullName}</td>
                                     <td>{items.attache}</td>
-                                    <td>{getDay(new Date(items.dueDate), new Date(items.startDate))} / Hari</td>
-                                    {
-                                        items.status === 'approved' ? (
+                                    {new Date(items.dueDate) > new Date() ? (
+                                            <td>{getDay(new Date(items.dueDate), new Date())} / Hari</td>
+                                        ) : (
+                                            <td>0 / Hari</td>
+                                    )}
+
+                                    {new Date(items.dueDate) > new Date() ? (
                                             <td className='text-success'>Active</td>
-                                        ) : getDay(new Date(items.dueDate), new Date(items.startDate)) === "0" ? (
+                                        ) :
+                                            new Date(items.dueDate) < new Date() ? (
                                             <td className='text-danger'>Not Active</td>
                                         ) : (
                                             <td className='text-danger'>Not Active</td>
-                                        )
-                                    }
-                                    {
-                                        items.status === 'approved' ? (
-                                            <td className="text-success">{items.status}</td>
-                                            ) :
-                                            items.status === 'pending' ? (
-                                                <td className="text-warning">{items.status}</td>
-                                            ) : (
-                                                <td className="text-danger">{items.status}</td>
-                                         )
-                                    }
+                                        )}
+
+                                    {items.status === 'approved' ? (
+                                        <td className="text-success">{items.status}</td>
+                                        ) :
+                                        items.status === 'pending' ? (
+                                            <td className="text-warning">{items.status}</td>
+                                        ) : (
+                                            <td className="text-danger">{items.status}</td>
+                                        )}
+
                                     <td>
                                         <DropDown key={items.id}
                                             approved={() => handleApproved(items.id)}

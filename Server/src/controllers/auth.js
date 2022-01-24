@@ -130,12 +130,14 @@ exports.login = async(req, res) => {
 }
 
 exports.checkAuth = async (req, res) => {
+    // console.log(req.user.id)
   try {
       const id = req.user.id;
+      console.log(id)
 
       const dataUser = await user.findOne({
           where: {
-              id,
+              id: id
           },
           attributes: {
               exclude: ["createdAt", "updatedAt", "password"],

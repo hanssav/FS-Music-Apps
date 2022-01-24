@@ -6,7 +6,7 @@ const { addUser, getUsers, getUser, updateUser, deleteUser } = require('../contr
 const { addArtis, getArtists, getArtis, updateArtis, deleteArtis } = require('../controllers/artis');
 const { addPayment, getPayments, getPayment, updatePayment, deletePayment, updateStatusApproved, updateStatusCancel } = require('../controllers/payment');
 const {addMusic, getMusics, getMusic} = require('../controllers/music')
-const { register, login,checkAuth } = require("../controllers/auth")
+const { register, login, checkAuth } = require("../controllers/auth")
 
 const { auth } = require("../middlewares/auth")
 const { uploadFile } = require("../middlewares/uploadFile");

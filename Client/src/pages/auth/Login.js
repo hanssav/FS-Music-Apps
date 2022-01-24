@@ -1,15 +1,15 @@
 import React, { useContext, useState } from 'react'
-import { Row, Card, Form, Button, Alert } from 'react-bootstrap'
-import { useHistory, Link } from 'react-router-dom'
+import { Form, Button, Alert, Modal } from 'react-bootstrap'
+import { useHistory } from 'react-router-dom'
 
 import {UserContext} from "../../context/UserContext"
 
-import Navbar from '../../component/Navbarr'
 import "./auth.css"
 
 import { API } from '../../config/api'
 
-export default function Login() {
+export default function Login(props) {
+    // console.log(props)
     let history = useHistory();
 
     const [,dispatch] = useContext(UserContext)
@@ -41,7 +41,7 @@ export default function Login() {
             }
 
             const body = JSON.stringify(form);
-            console.log(body)
+            // console.log(body)
 
             const response = await API.post("/login", body, config)
             console.log(response.data.data)
@@ -55,7 +55,8 @@ export default function Login() {
                 if (response.data.data.listAs === "1") {
                     history.push("/listtransactions")
                 } else {
-                    history.push("/")
+                    history.push("/");
+                    props.handleCloseLogin();
                 }
 
                 const alert = (
@@ -78,40 +79,43 @@ export default function Login() {
 
     return (
         <>
-            <Navbar />
-            <div className="login">
-                <Row className="justify-content-center align-items-center m-0">
-                    <Card className="card">
-                        <Card.Body>
-                            <Form
-                                onSubmit={handleLogin}
-                            >
-                                {message && message}
-                                <Form.Group className="d-flex justify-content-center my-4">
-                                    <h3 className= "title"> Login</h3>
-                                </Form.Group>
+            <Modal show={props.showLogin} onHide={props.handleCloseLogin} aria-labelledby="contained-modal-title-vcenter" centered  className='rounded-0'>
+                <Modal.Body className="login bg-dark text-light">
+                    <Form onSubmit={handleLogin}>
+                        {message && message}
+                        <Form.Group className="d-flex justify-content-center my-4">
+                            <h3 className= "title"> Login</h3>
+                        </Form.Group>
 
-                                <Form.Group className="mb-3" controlId="formBasicEmail">
-                                    <Form.Control className="bg-dark text-light" name="email" type="email" placeholder="Enter email" value={email} onChange={handleChange}/>
-                                </Form.Group>
+                        <Form.Group className="mb-3" controlId="formBasicEmail">
+                            <Form.Control className="bg-dark text-light" name="email" type="email" placeholder="Enter email" value={email} onChange={handleChange}/>
+                        </Form.Group>
 
-                                <Form.Group className="mb-4" controlId="formBasicPassword">
-                                    <Form.Control className ="bg-dark text-light" name="password" type="password" placeholder="Password" value={password} onChange={handleChange}/>
-                                </Form.Group>
+                        <Form.Group className="mb-4" controlId="formBasicPassword">
+                            <Form.Control className ="bg-dark text-light" name="password" type="password" placeholder="Password" value={password} onChange={handleChange}/>
+                        </Form.Group>
 
-                                <Form.Group className="mb-3 d-flex justify-content-center" controlId="formBasicPassword">
-                                    <Button className="text-light" variant="warning" type="submit" style={{width: "100%", backgroundColor: "#f15532"}}>Login
+                        <Form.Group className="mb-3 d-flex justify-content-center" controlId="formBasicPassword">
+                            <Button className="text-light" variant="warning" type="submit" style={{width: "100%", backgroundColor: "#f15532"}}>Login
+                            </Button>
+                        </Form.Group>
+
+                        <Form.Text className="d-flex justify-content-center text-muted align-items-center">
+                            Don't have an account ? {"  "}
+                                <span className=''>
+                                <Button
+                                    onClick={() => {
+                                        props.handleShowRegister();
+                                        props.handleCloseLogin();
+                                    }}
+                                    className="text-light p-0 m-0 border-0" variant="dark">
+                                        Klik Here
                                     </Button>
-                                </Form.Group>
-
-                                <Form.Text className="d-flex justify-content-center text-muted">
-                                    Don't have an account ? <Link to="/register" className="linkTo" > Klik Here </Link>
-                                </Form.Text>
-                            </Form>
-                        </Card.Body>
-                    </Card>
-                </Row>
-            </div>
+                                </span>
+                        </Form.Text>
+                    </Form>
+                </Modal.Body>
+            </Modal>
         </>
     )
 }

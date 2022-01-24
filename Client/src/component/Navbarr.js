@@ -1,4 +1,4 @@
-import { React, useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Navbar, Nav, NavDropdown, Container, Image, Button, Dropdown} from 'react-bootstrap'
 import { Link, useHistory } from "react-router-dom";
@@ -15,6 +15,8 @@ import ArtisIcon from "../public/icons/artisIcon.png"
 import Polygon from "../public/icons/Polygon.png"
 
 import "./navbar.css"
+import Login from '../pages/auth/Login';
+import Register from '../pages/auth/Register';
 
 function UserNav() {
     const [, dispatch] = useContext(UserContext)
@@ -116,49 +118,72 @@ function AdminNav() {
 }
 
 function GuestPage() {
+
+    const [showLogin, setShowLogin] = useState(false);
+    const handleCloseLogin = () => setShowLogin(false);
+    const handleShowLogin = () => setShowLogin(true);
+
+    const [showRegister, setShowRegister] = useState(false);
+    const handleCloseRegister = () => setShowRegister(false);
+    const handleShowRegister = () => setShowRegister(true);
+
+    const loginModalProps = {
+        showLogin,
+        handleCloseLogin,
+        handleShowRegister,
+    };
+    const registerModalProps = {
+        showRegister,
+        handleCloseRegister,
+        handleShowLogin,
+    };
     return (
-        <div>
-            <Link to="/login">
-                <Button className="mr-3" variant="outline-light">Login</Button>
-            </Link>
-            <Link to="/register">
-                <Button variant="warning" style={{color: "white", backgroundColor:"#EE4622", border: "#EE4622"}}>Register</Button>
-            </Link>
-        </div>
+        <>
+            <div>
+                <Button className="mr-3" variant="outline-light" onClick={handleShowLogin}>Login</Button>
+                <Button variant="warning" style={{color: "white", backgroundColor:"#EE4622", border: "#EE4622"}} onClick={handleShowRegister}>Register</Button>
+
+                <Login {...loginModalProps} />
+                <Register {...registerModalProps}/>
+            </div>
+        </>
     )
 }
 
 function Navbarr() {
     const [state] = useContext(UserContext)
-    // console.log(state)
+    // let history = useHistory()
 
     return (
-        <Navbar expand="lg my-3 mx-3">
-            <Container fluid className="d-flex justify-content-between mx-5" style={{}}>
-                <div>
-                    <Link to="/" className='logo'>
-                        <Navbar.Brand style={{ color: "white" }} href="#home">
-                            <Image src={Logo} thumbnail style={{ height: '30px' }} />
-                            <Image src={TextLogo} thumbnail style={{ height: '30px'}} />
-                        </Navbar.Brand>
-                    </Link>
-                </div>
+        <>
+            <Navbar expand="lg my-3 mx-3">
+                <Container fluid className="d-flex justify-content-between mx-5" style={{}}>
+                    <div>
+                        <Link to={state.isLogin ? (state.user.listAs === "1" ? "/listtransactions" : "/") : "/"} className='logo'>
+                            <Navbar.Brand style={{ color: "white" }} href="#home">
+                                <Image src={Logo} thumbnail style={{ height: '30px' }} />
+                                <Image src={TextLogo} thumbnail style={{ height: '30px'}} />
+                            </Navbar.Brand>
+                        </Link>
+                    </div>
 
-                <div className='mr-4'>
-                    {!state.isLogin ? (
-                        // <AdminNav />
-                        // <UserNav />
-                        <GuestPage />
-                    ) : (
-                        state.user.listAs === "1" ? (
-                            <AdminNav />
+                    <div className='mr-4'>
+                        {!state.isLogin ? (
+                            // <AdminNav />
+                            // <UserNav />
+                            <GuestPage />
                         ) : (
-                            <UserNav />
-                        )
-                    )}
-                </div>
-            </Container>
-        </Navbar>
+                            state.user.listAs === "1" ? (
+                                <AdminNav />
+                            ) : (
+                                <UserNav />
+                            )
+                        )}
+                    </div>
+                </Container>
+            </Navbar>
+
+        </>
     )
 }
 

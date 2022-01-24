@@ -1,13 +1,12 @@
 import React, {useContext, useState} from 'react'
-import { Row, Card, Form, Button, Alert } from 'react-bootstrap'
-import { Link, useHistory } from 'react-router-dom'
-
-import Navbar from '../../component/Navbarr'
+import { Form, Button, Alert, Modal } from 'react-bootstrap'
+import {useHistory } from 'react-router-dom'
 
 import { API } from '../../config/api'
 import { UserContext } from '../../context/UserContext'
 
-export default function Register() {
+export default function Register(props) {
+    // console.log(props)
     let history = useHistory()
 
     const [, dispatch] = useContext(UserContext)
@@ -67,6 +66,7 @@ export default function Register() {
                     payload: response.data.data,
                 })
                 history.push("/")
+                props.handleCloseRegister();
 
             } else {
                 const alert = (
@@ -91,58 +91,63 @@ export default function Register() {
 
     return (
         <div>
-            <Navbar />
+            <Modal show={props.showRegister} onHide={props.handleCloseRegister} aria-labelledby="contained-modal-title-vcenter" centered className='modalAuth'>
+            <Modal.Body className="register bg-dark text-light">
+                {message && message}
+                <Form onSubmit={handleOnSubmit}>
+                    <Form.Group className="my-4">
+                        <h3 className="title" >Register</h3>
+                    </Form.Group>
 
-            <Row className="register justify-content-center m-0">
-                <Card className= "card">
-                    <Card.Body>
-                        {message && message}
-                        <Form onSubmit={handleOnSubmit}>
-                            <Form.Group className="my-4">
-                                <h3 className="title" >Register</h3>
-                            </Form.Group>
+                    <Form.Group className="mb-3" controlId="formBasicEmail">
+                        <Form.Control onChange={handleOnChange} className="bg-dark text-light" name="email" type="email" placeholder="Enter email" value={ email }/>
+                    </Form.Group>
 
-                            <Form.Group className="mb-3" controlId="formBasicEmail">
-                                <Form.Control onChange={handleOnChange} className="bg-dark text-light" name="email" type="email" placeholder="Enter email" value={ email }/>
-                            </Form.Group>
+                    <Form.Group className="mb-3" controlId="formBasicPassword">
+                        <Form.Control onChange={handleOnChange} className="bg-dark text-light" name="password" type="password" placeholder="Password" value={ password }/>
+                    </Form.Group>
 
-                            <Form.Group className="mb-3" controlId="formBasicPassword">
-                                <Form.Control onChange={handleOnChange} className="bg-dark text-light" name="password" type="password" placeholder="Password" value={ password }/>
-                            </Form.Group>
+                    <Form.Group className="mb-3" controlId="formBasicText">
+                        <Form.Control onChange={handleOnChange} className="bg-dark text-light" name="fullName" type="text" placeholder="Enter Full Name" value={ fullName }/>
+                    </Form.Group>
 
-                            <Form.Group className="mb-3" controlId="formBasicText">
-                                <Form.Control onChange={handleOnChange} className="bg-dark text-light" name="fullName" type="text" placeholder="Enter Full Name" value={ fullName }/>
-                            </Form.Group>
+                    <Form.Group className="mb-3" controlId="formBasicText">
+                        <Form.Select onChange={handleOnChange} className="bg-dark text-light w-100 py-2" aria-label="Default select example" name="gender" placeholder="Gender" value={gender}>
+                            <option className='bg-dark text-light' value="" disabled selected>Gender</option>
+                            <option className='bg-dark text-light' value="male">Male</option>
+                            <option className='bg-dark text-light' value="female">Female</option>
+                        </Form.Select>
+                    </Form.Group>
 
-                            <Form.Group className="mb-3" controlId="formBasicText">
-                                <Form.Select onChange={handleOnChange} className="bg-dark text-light w-100 py-2" aria-label="Default select example" name="gender" placeholder="Gender" value={gender}>
-                                    <option className='bg-dark text-light' value="" disabled selected>Gender</option>
-                                    <option className='bg-dark text-light' value="male">Male</option>
-                                    <option className='bg-dark text-light' value="female">Female</option>
-                                </Form.Select>
-                            </Form.Group>
+                    <Form.Group className="mb-3" controlId="formBasicText">
+                        <Form.Control onChange={handleOnChange} className="bg-dark text-light" name="phone" type="number" placeholder="Phone" value={ phone }/>
+                    </Form.Group>
 
-                            <Form.Group className="mb-3" controlId="formBasicText">
-                                <Form.Control onChange={handleOnChange} className="bg-dark text-light" name="phone" type="number" placeholder="Phone" value={ phone }/>
-                            </Form.Group>
+                    <Form.Group className="mb-4" controlId="formBasicText">
+                        <Form.Control onChange={handleOnChange} className="bg-dark text-light" name="address" type="text" placeholder="Address" value={address} as="textarea" style={{resize: "none", height: "50px"}}/>
+                    </Form.Group>
 
-                            <Form.Group className="mb-4" controlId="formBasicText">
-                                <Form.Control onChange={handleOnChange} className="bg-dark text-light" name="address" type="text" placeholder="Address" value={address} as="textarea" style={{resize: "none", height: "50px"}}/>
-                            </Form.Group>
+                    <Form.Group className="my-3 d-flex justify-content-center" controlId="formBasicSubmit">
+                        <Button className="text-light" variant="warning" type="submit" style={{width: "100%", backgroundColor: "#f15532"}}>Register
+                        </Button>
+                    </Form.Group>
 
-                            <Form.Group className="my-3 d-flex justify-content-center" controlId="formBasicSubmit">
-                                <Button className="text-light" variant="warning" type="submit" style={{width: "100%", backgroundColor: "#f15532"}}>Register
+                    <Form.Text className="d-flex justify-content-center text-muted align-items-center">
+                        Don't have an account ?
+                        <span className=''>
+                            <Button
+                                onClick={() => {
+                                    props.handleShowLogin();
+                                    props.handleCloseRegister();
+                                }}
+                                className="text-light p-0 m-0 border-0" variant="dark">
+                                    Klik Here
                                 </Button>
-                            </Form.Group>
-
-                            <Form.Text className="d-flex justify-content-center text-muted">
-                                Don't have an account ?
-                                <Link to="/login" className="linkTo"> Klik Here </Link>
-                            </Form.Text>
-                        </Form>
-                    </Card.Body>
-                </Card>
-            </Row>
+                            </span>
+                    </Form.Text>
+                </Form>
+            </Modal.Body>
+        </Modal>
         </div>
     )
 }

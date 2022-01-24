@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react'
 
-import { Form, Button, Container, Col } from 'react-bootstrap'
+import { Form, Button, Container, Col, Image } from 'react-bootstrap'
 import { useHistory } from 'react-router-dom'
 import { API } from '../../config/api'
 
 import Navbar from '../../component/Navbarr'
+import { imgFile } from "../../public/icons/atthace.png"
 
 export default function AddMusic() {
     console.clear();
@@ -86,17 +87,19 @@ export default function AddMusic() {
                         <h3 className="title">Add Music</h3>
                     </Form.Group>
 
-                    <Form.Group className="d-flex justify-content-between mb-2">
+                    <Form.Group className="d-flex justify-content-between mb-3">
                         <Col xs={9} className="" style={{paddingLeft: 0}}>
                             <Form.Group className="" controlId="formBasicText">
-                                <Form.Control type="text" placeholder="Title" className='formInput' name="title" onChange={handleChange}/>
+                                <Form.Control type="text" placeholder="Title" className='bg-dark text-light' name="title" onChange={handleChange}/>
                             </Form.Group>
                         </Col>
 
                         <Col xs={3} style={{padding: 0}}>
                             <Form.Group className="" controlId="image">
-                                <Form.Control className='formInput' name="image" type="file" placeholder="Attache Thumbnail" onChange={handleChange} />
+                                <Form.Control className='bg-dark text-light' name="image" id="img" type="file" placeholder="Attache Thumbnail" onChange={handleChange}>
+                                </Form.Control>
                             </Form.Group>
+                                {/* <Image src={imgFile} /> */}
                             {/* {preview && (
                                 <div>
                                     <img
@@ -114,29 +117,29 @@ export default function AddMusic() {
                     </Form.Group>
 
 
-                    <Form.Group className="mb-2" controlId="formBasicText">
-                        <Form.Control className='formInput' name ="year" type="number" placeholder="Year" onChange={handleChange}/>
+                    <Form.Group className="mt-4 mb-3" controlId="formBasicText">
+                        <Form.Control className='bg-dark text-light' name ="year" type="number" placeholder="Year" onChange={handleChange}/>
                     </Form.Group>
 
                     {/* <Form.Group className="mb-2" controlId="formBasicText">
                         <Form.Control className='formInput' name="artis" type="text" placeholder="Singer" />
                     </Form.Group> */}
 
-                    <Form.Select onChange={handleChange} className="formInput py-2" aria-label="Default select example" name="artisId">
+                    <Form.Select onChange={handleChange} className="bg-dark text-light py-2 my-2 w-100 rounded border-light" aria-label="Default select example" name="artisId">
                         <option value="">Singer</option>
                         {artis.map((artisData) => {
                             console.log(artisData.id)
                             return (
                                 <>
-                                    < option key={artisData.id} value={artisData.id} > {artisData.name}</option>
+                                    < option className="bg-dark" key={artisData.id} value={artisData.id} > {artisData.name}</option>
                                 </>
 
                             )
                         })}
                     </Form.Select>
 
-                    <Form.Group className="mb-5" controlId="image">
-                        <Form.Control style={{backgroundColor: "black"}} className='formInput musicUpload' name="music" type="file" placeholder="Attache Thumbnail" onChange={handleChange}>
+                    <Form.Group className="mb-5 mt-3" controlId="image">
+                        <Form.Control className='bg-dark text-light musicUpload' name="music" type="file" placeholder="Attache Thumbnail" onChange={handleChange}>
                         </Form.Control>
                     </Form.Group>
 

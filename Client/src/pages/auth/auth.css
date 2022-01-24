@@ -1,6 +1,15 @@
 .login, .register {
     color: white;
     font-family: 'Roboto Condensed', sans-serif;
+    border: none;
+    border-radius: 10px;
+}
+
+.modal-content {
+    border: none;
+    width: 70%;
+    border-radius: 40px !important;
+    margin: auto auto;
 }
 
 .title{

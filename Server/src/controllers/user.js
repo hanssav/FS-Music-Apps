@@ -1,4 +1,4 @@
-const { user } = require("../../models")
+const { user, payment } = require("../../models")
 
 exports.addUser = async (req, res) => {
     try {
@@ -52,6 +52,13 @@ exports.getUser = async(req, res) => {
             },
             attributes: {
                 exclude: ['password', 'createdAt', 'updatedAt']
+            },
+            include: {
+                model: payment,
+                as: "payment",
+                attributes: {
+                    exclude: [ 'createdAt', 'updatedAt']
+                }
             }
         })
 
@@ -61,6 +68,7 @@ exports.getUser = async(req, res) => {
         })
 
     } catch (error) {
+        console.log(error)
         res.status(500).send({
             status: "failed",
             message: "server error"
