@@ -4,14 +4,14 @@ import { UserContext } from '../context/UserContext'
 
 function PrivateRoute({ component: Component, ...rest }) {
     const [state] = useContext(UserContext)
-    console.log(state)
+    // console.log(state)
 
     return (
         <>
             <Route
                 {...rest}
                 render={(props) =>
-                    state.isLogin ? <Component {...props} /> : <Redirect to="/login" />
+                    state.isLogin ? <Component {...props} /> : <Redirect to="/" />
                 }
             />
         </>

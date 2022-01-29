@@ -46,7 +46,7 @@ exports.getUser = async(req, res) => {
     try {
         const { id } = req.params
 
-        const dataUuser = await user.findOne({
+        const data = await user.findOne({
             where: {
                 id
             },
@@ -64,7 +64,7 @@ exports.getUser = async(req, res) => {
 
         res.status(200).send({
             status: "success",
-            dataUuser
+            data
         })
 
     } catch (error) {

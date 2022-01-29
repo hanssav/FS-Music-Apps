@@ -2,16 +2,18 @@ import React, {useContext, useState} from 'react'
 import { Form, Button, Alert, Modal } from 'react-bootstrap'
 import {useHistory } from 'react-router-dom'
 
-import { API } from '../../config/api'
+import { API, setAuthToken } from '../../config/api'
 import { UserContext } from '../../context/UserContext'
 
+// console.log(setAuthToken)
+
 export default function Register(props) {
+    // const title = "Register";
+    // document.title = "Music Apps | " + title;
     // console.log(props)
     let history = useHistory()
 
     const [, dispatch] = useContext(UserContext)
-    const title = "Register";
-    document.title = "Music Apps | " + title;
 
     const [message, setMessage] = useState(null);
 
@@ -47,10 +49,13 @@ export default function Register(props) {
             }
         }
 
-        const body = JSON.stringify(form)
+            const body = JSON.stringify(form)
+            
+            // console.log(body)
+        // const response = await API.post("/", body, config)
         const response = await API.post("/register", body, config)
 
-        console.log(response.data.data)
+        console.log(response.data)
 
         // Notification
             if (response.data.status === "success") {
@@ -61,11 +66,15 @@ export default function Register(props) {
                 );
                 setMessage(alert);
 
+                // let payload = response.data.data
+                // payload.token = localStorage.token
+                
+                // setAuthToken(response.data.data.token)
                 dispatch({
                     type: "LOGIN_SUCCESS",
-                    payload: response.data.data,
+                    payload : response.data.data
                 })
-                history.push("/")
+                // history.push("/")
                 props.handleCloseRegister();
 
             } else {

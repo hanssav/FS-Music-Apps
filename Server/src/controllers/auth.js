@@ -1,4 +1,4 @@
-const { user } = require("../../models")
+const { user, payment } = require("../../models")
 
 const Joi = require("joi")
 const bcrypt = require("bcrypt")
@@ -31,6 +31,20 @@ exports.register = async(req, res) => {
             })
         }
 
+        const userExist = await user.findOne({
+            where: {
+            email: data.email,
+            },
+        });
+
+        if (userExist) {
+            return res.send({
+            status: "error",
+            message: "email already exist",
+            });
+        }
+        // add response
+
         const salt = await bcrypt.genSalt(10)
         const hashedPassword = await bcrypt.hash(req.body.password, salt)
 
@@ -44,9 +58,20 @@ exports.register = async(req, res) => {
             address: data.address
         })
 
-        console.log(dataUserNew)
+        let checkSubscribe = await payment.findAll({
+			where: {
+				userId: dataUserNew.id,
+            },
+            attributes: {
+                exclude: ["createdAt", "updatedAt", "id", "startDate", "dueDate", "attache", "accountNumber", "userId"]
+            }
+        });
 
-        const token = jwt.sign({ id: user.id }, process.env.TOKEN_KEY)
+        console.log("data User New", dataUserNew)
+
+        const token = jwt.sign({ id: dataUserNew.id }, process.env.TOKEN_KEY)
+
+        console.log('token', token)
 
         res.status(201).send({
             status: "success",
@@ -58,11 +83,12 @@ exports.register = async(req, res) => {
                 gender: data.gender,
                 phone: data.phone,
                 address: data.address,
+                payment: checkSubscribe,
                 token
             }
         })
     } catch (error) {
-        // console.log(error)
+        console.log(error)
         res.status(500).send({
             status: "failed",
             message: "Server Error"
@@ -96,17 +122,50 @@ exports.login = async(req, res) => {
                 exclude: ["createdAt", "updateAt"]
             }
         })
-
-        const isMatch = await bcrypt.compare(req.body.password, userExist.password)
-
+        
+        if (!userExist) {
+            return res.status(400).send({
+                    status: "failed",
+                    message: "email doesnt exist"
+                })
+            }
+        // console.log(userExist.password)
+                
+        const isMatch = await bcrypt.compare(req.body.password,
+            userExist.password)
+        
+                
         if (!isMatch) {
             return res.status(400).send({
                 status: "failed",
-                message: "email or password doesnt exist"
+                message: "password doesnt exist"
             })
         }
 
-        const token = jwt.sign({ id: user.id }, process.env.TOKEN_KEY)
+        const checkSubscribe = await payment.findAll({
+			where: {
+				userId: userExist.id,
+            },
+            attributes: {
+                exclude: ["createdAt", "updatedAt", "id", "startDate", "dueDate", "attache", "accountNumber", "userId"]
+            }
+        }) ?? "null";
+
+        if (checkSubscribe < 0) {
+            res.status(400).send({
+                status: "failed",
+                message: "empty data"
+            })
+        }
+
+        
+
+        console.log("check status Login: ", checkSubscribe)
+
+        const token = jwt.sign({
+            id: userExist.id
+        }, process.env.TOKEN_KEY)
+        
 
         res.status(200).send({
             status: "success",
@@ -115,8 +174,11 @@ exports.login = async(req, res) => {
                 fullName: userExist.fullName,
                 email: userExist.email,
                 listAs: userExist.listAs,
+                payment: checkSubscribe,
+                phone: userExist.phone,
+                address: userExist.address,
                 token,
-                idToken: user.id
+                // idToken: user.id,
             }
         })
 
@@ -129,41 +191,90 @@ exports.login = async(req, res) => {
     }
 }
 
-exports.checkAuth = async (req, res) => {
-    // console.log(req.user.id)
-  try {
-      const id = req.user.id;
-      console.log(id)
+exports.checkAuth = async (req, res, next) => {
+    try {
+        const authHeader = req.header('Authorization');
+        if (!authHeader) {
+            return res.status(404).send({
+                status: 'failed',
+                message: 'token not found',
+            });
+        }
 
-      const dataUser = await user.findOne({
-          where: {
-              id: id
-          },
-          attributes: {
-              exclude: ["createdAt", "updatedAt", "password"],
-          },
-      });
-      if (!dataUser) {
-          return res.status(404).send({
-              status: "failed",
-          });
-      }
+        const token = authHeader.split(' ')[1];
 
-    res.send({
-      status: "success...",
-      data: {
-        user: {
-          id: dataUser.id,
-          name: dataUser.name,
-          email: dataUser.email,
-        },
-      },
-    });
-  } catch (error) {
-    // console.log(error);
-    res.status({
-      status: "failed",
-      message: "Server Error",
-    });
-  }
+        // console.log("token server", process.env.TOKEN_KEY)
+  
+        const isVerified = jwt.verify(token, process.env.TOKEN_KEY, (err, decode) => {
+            if (err) {
+                return res.status(401).send({
+                    status: 'failed',
+                    message: err.message
+                })
+            }
+            return decode.id
+        })
+        // console.log("isVerified", isVerified)
+        
+        const userExist = await user.findOne({
+			where: {
+				id: isVerified
+			},
+			attributes: {
+				exclude: ['password', 'createdAt', 'updatedAt'],
+			},
+        });
+
+        let checkSubscribe = await payment.findAll({
+			where: {
+				userId: userExist.id,
+            },
+            attributes: {
+                exclude: ["createdAt", "updatedAt", "id", "startDate", "dueDate", "attache", "accountNumber", "userId"]
+            }
+        });
+
+        // const status payment 
+        // if (checkSubscribe <= 0) {
+        //     return checkSubscribe
+        // } else {
+        //     return checkSubscribe[0].status
+        // }
+
+        console.log("check status CheckAuth: ", checkSubscribe)
+
+        // console.log("user exist: ",userExist)
+        
+        if (!userExist) {
+            return res.status(401).send({
+                status: 'failed',
+                message: 'invalid token',
+            })
+        }
+
+        const newToken = jwt.sign({ id: userExist.id }, process.env.TOKEN_KEY);
+
+        return res.status(200).send({
+            status: 'success',
+            data: {
+                id: userExist.id,
+                fullName: userExist.fullName,
+                email: userExist.email,
+                listAs: userExist.listAs,
+                payment: checkSubscribe,
+                phone: userExist.phone,
+                address: userExist.address,
+                gender: userExist.gender,
+                token: newToken
+            }
+        });
+        
+        next()
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({
+            status: 'failed',
+            message: 'server error'
+        })
+    }
 };

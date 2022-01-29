@@ -4,14 +4,14 @@ import { Form, Button, Container, Col, Image } from 'react-bootstrap'
 import { useHistory } from 'react-router-dom'
 import { API } from '../../config/api'
 
+import Atthace from "../../public/icons/atthace.png"
 import Navbar from '../../component/Navbarr'
-import { imgFile } from "../../public/icons/atthace.png"
 
 export default function AddMusic() {
     console.clear();
 
-    const title = "Music Admin"
-    document.title = "Music Apps " + title
+    // const title = "Music Admin"
+    // document.title = "Music Apps | " + title
 
     let history = useHistory()
 
@@ -65,10 +65,13 @@ export default function AddMusic() {
             formData.set("year", form.year);
             formData.set("artisId", form.artisId);
 
+            console.log(form.image[0])
+            console.log(form.music[0])
+
             const response = await API.post("/addmusic", formData, config)
             console.log(response.data)
 
-            history.push("/")
+            history.push("/listtransactions")
         } catch (error) {
             console.log(error)
         }
@@ -88,31 +91,20 @@ export default function AddMusic() {
                     </Form.Group>
 
                     <Form.Group className="d-flex justify-content-between mb-3">
-                        <Col xs={9} className="" style={{paddingLeft: 0}}>
+                        <Col xs={10} className="" style={{paddingLeft: 0}}>
                             <Form.Group className="" controlId="formBasicText">
-                                <Form.Control type="text" placeholder="Title" className='bg-dark text-light' name="title" onChange={handleChange}/>
+                                <Form.Control  type="text" placeholder="Title" className='bg-dark text-light' name="title" onChange={handleChange}/>
                             </Form.Group>
                         </Col>
 
-                        <Col xs={3} style={{padding: 0}}>
+                        <Col xs={2} style={{padding: 0}}>
                             <Form.Group className="" controlId="image">
-                                <Form.Control className='bg-dark text-light' name="image" id="img" type="file" placeholder="Attache Thumbnail" onChange={handleChange}>
-                                </Form.Control>
+                                <label disabled htmlFor="uploadImg" className="form-control bg-dark text-light d-flex justify-content-between">
+                                    <p>Attache Thumbnail</p>
+                                    <img src={Atthace} alt="atc" className="ml-3 mb-0" />
+                                </label>
+                                <input type="file" id="uploadImg" name="image" hidden onChange={handleChange} />
                             </Form.Group>
-                                {/* <Image src={imgFile} /> */}
-                            {/* {preview && (
-                                <div>
-                                    <img
-                                        src={preview}
-                                        style={{
-                                            maxWidth: "150px",
-                                            maxHeight: "150px",
-                                            objectFit: "cover",
-                                        }}
-                                        alt="preview"
-                                    />
-                                </div>
-                            )} */}
                         </Col>
                     </Form.Group>
 
@@ -121,11 +113,7 @@ export default function AddMusic() {
                         <Form.Control className='bg-dark text-light' name ="year" type="number" placeholder="Year" onChange={handleChange}/>
                     </Form.Group>
 
-                    {/* <Form.Group className="mb-2" controlId="formBasicText">
-                        <Form.Control className='formInput' name="artis" type="text" placeholder="Singer" />
-                    </Form.Group> */}
-
-                    <Form.Select onChange={handleChange} className="bg-dark text-light py-2 my-2 w-100 rounded border-light" aria-label="Default select example" name="artisId">
+                    <Form.Select onChange={handleChange} className="bg-dark text-light py-2 my-2 w-100 rounded border-light mb-3" aria-label="Default select example" name="artisId">
                         <option value="">Singer</option>
                         {artis.map((artisData) => {
                             console.log(artisData.id)
@@ -133,14 +121,15 @@ export default function AddMusic() {
                                 <>
                                     < option className="bg-dark" key={artisData.id} value={artisData.id} > {artisData.name}</option>
                                 </>
-
                             )
                         })}
                     </Form.Select>
 
-                    <Form.Group className="mb-5 mt-3" controlId="image">
-                        <Form.Control className='bg-dark text-light musicUpload' name="music" type="file" placeholder="Attache Thumbnail" onChange={handleChange}>
-                        </Form.Control>
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                        <label disabled htmlFor="uploadMsc" className="form-control form-file bg-dark text-light">
+                        Attache
+                        </label>
+                        <input class="musicUpload" type="file" id="uploadMsc" name="music" hidden onChange={handleChange} />
                     </Form.Group>
 
                     <Form.Group className="mb-3 d-flex justify-content-center" controlId="formBasicPassword">

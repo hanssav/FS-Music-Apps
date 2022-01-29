@@ -20,10 +20,17 @@
     background-color: #f19355;
 }
 
-.addMusic .musicUpload {
+.addMusic .form-file {
+    width: 10%;
+}
+
+input .musicUpload {
     width: 20%;
 }
 
+.addMusic #img input .inputFile {
+    background-color: black !important;
+}
 /* .addMusic input#img{
     background-image: url("Client/src/public/icons/atthace.png");
 } */

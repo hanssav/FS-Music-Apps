@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { Container, Table, Dropdown, Button } from 'react-bootstrap'
+import { Container, Table, Dropdown, Image } from 'react-bootstrap'
 
 import Navbar from '../../component/Navbarr'
 
@@ -24,6 +24,7 @@ function DropDown(props) {
     )
 }
 
+
 export default function ListTransactions() {
     // console.clear()
 
@@ -35,25 +36,6 @@ export default function ListTransactions() {
         try {
             const response = await API.get("/getpayments")
             setPayment(response.data.data)
-            // console.log(response.data.data)
-            // console.log(payment[2].startDate)
-
-            // let start = new Date(payment[2].startDate)
-            // let startDate = convertDate(start)
-
-            // console.log(startDate)
-
-            // let due = new Date(payment[2].dueDate)
-            // let dueDate = convertDate(due)
-            // console.log(dueDate)
-
-            // console.log(getDay(new Date(dueDate), new Date(start)))
-
-            // console.log(getDay(due, start))
-
-            // const start = new Date (Date.now());
-
-            // console.log(start)
         } catch (error) {
             console.log(error)
         }
@@ -128,14 +110,20 @@ export default function ListTransactions() {
                     <tbody>
                     {
                             payment.map((items, index) => {
-                            console.log(payment.length)
+                            // console.log(payment.length)
                             // console.log(getDay(new Date(items.dueDate), new Date()))
-                                console.log(new Date(items.dueDate) >= new Date())
+                                // console.log(new Date(items.dueDate) >= new Date())
+                                console.log(new Date(items.dueDate) > new Date())
+                                console.log(items.user.fullName)
                             return (
                                 <tr key={index}>
                                     <td>{index + 1}</td>
                                     <td>{items.user.fullName}</td>
-                                    <td>{items.attache}</td>
+                                    <td class='cursor-pointer' onClick={() =>
+                                        window.open(items.attache , 'blank').focus()
+                                    }>{items.attache}
+                                        {/* <Image src={items.attache} /> */}
+                                    </td>
                                     {new Date(items.dueDate) > new Date() ? (
                                             <td>{getDay(new Date(items.dueDate), new Date())} / Hari</td>
                                         ) : (

@@ -7,30 +7,50 @@ import Card from '../../component/Home/CardHome'
 import "./home.css"
 import MusicPlayer from '../../component/Home/MusicPlayer'
 
-import { API } from "../../config/api"
+import { API, setAuthToken } from "../../config/api"
 import { UserContext } from '../../context/UserContext'
 
 import Login from '../auth/Login'
 import Register from '../auth/Register'
 
+// import axios from 'axios'
 
 export default function Home() {
     const [music, setMusic] = useState([])
-    const [payments, setPayments] = useState([])
-    const [userId, setUserId] = useState()
 
-    const [state] = useContext(UserContext);
+    const [state, dispatch] = useContext(UserContext);
     const [selectedMusic, setSelectedMusic] = useState(0);
 
-    console.log(state.isLogin)
-
+    console.log(state)
     let history = useHistory()
+    
+    const checkUser = async () => {
+        // console.clear()
+        try {
+            const response = await API.get('/check-auth')
+            console.log(response.data.data)
 
-    // if (state.isLogin) {
-    //     setUserId(state.user.id)
-    // }
+            let payload = response.data.data
+            payload.token = localStorage.token
+            
+            if (state.user.listAs === "0") {
+                dispatch({
+                    type: "USER_SUCCESS",
+                    payload
+                })
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect(() => {
+        checkUser(); 
+        return
+    }, [])
 
     const getMusic = async () => {
+        console.clear();
         try {
             const response = await API.get("/getmusics")
             // console.log(response.data.data)
@@ -40,26 +60,18 @@ export default function Home() {
         }
     }
 
-    const getStatusPayment = async () => {
-        console.log(state.user.id)
-        try {
-            const response = await API.get("/getpayments")
-            setPayments(response.data.data)
-
-        } catch (error) {
-            console.log(error)
-        }
-    }
-    // console.log(payments)
-
     useEffect(() => {
-        getMusic();
-        // getStatusPayment();
+        if (localStorage.token) {
+          setAuthToken(localStorage.token);
+        }
+        getMusic()
+        checkUser()
     }, [])
 
     const [showLogin, setShowLogin] = useState(false);
     const handleCloseLogin = () => setShowLogin(false);
     const handleShowLogin = () => setShowLogin(true);
+
     const [showRegister, setShowRegister] = useState(false);
     const handleCloseRegister = () => setShowRegister(false);
     const handleShowRegister = () => setShowRegister(true);
@@ -75,19 +87,23 @@ export default function Home() {
         handleCloseLogin,
         handleShowRegister,
     };
-
     const selectMusic = (index) => {
         // console.log(index)
-        if (state.isLogin) {
+        if (!state.isLogin) {
+            handleShowLogin();
+        } else if (state.user.listAs === "1") {
             setSelectedMusic(index);
         } else {
-            handleShowLogin();
-            // history.push('/login')
+            if (state.user.payment.length <= 0 || state.user.payment[0].status === "pending" || state.user.payment[0].status === "cancel") {
+                history.push("/pay")
+            } else if (state.user.payment[0].status === "approved") {
+                setSelectedMusic(index);
+            } else {
+                history.push('/pay')
+            }
         }
     };
-    // console.log(selectedMusic)
-
-    // console.log(music)
+    
     return (
         <Container fluid className='home'>
             <div className='bgImageHero'>
@@ -104,7 +120,6 @@ export default function Home() {
 
                     {music.map((a, i) => {
                         // console.log(music)
-                            // console.log(a)
                             return (
                                 <Col onClick={() => selectMusic(i)} className="d-flex justify-content-center"
                                     style={{
@@ -123,13 +138,27 @@ export default function Home() {
                             )
                         })}
                 </Row>
-                {/* {state.islogin === true && */}
-                {state.isLogin ? (
-                    <MusicPlayer musics={music} selectedMusicIndex={selectedMusic} />
-                ): (
-                    <></>
-                )}
-            {/* } */}
+
+                {!state.isLogin ? (
+                    <div></div>
+                ) : ( 
+                        state.user.listAs === "0" ? (
+                            state.user.payment <= 0 ? (
+                                <div></div>
+                            ) : (
+                                state.user.payment[0].status === "approved" ? (
+                                    <MusicPlayer musics={music} selectedMusicIndex={selectedMusic} />
+                                ) : (
+                                    <div></div>
+                                )
+                            )            
+                        ) : (
+                            <MusicPlayer musics={music} selectedMusicIndex={selectedMusic} />
+                        )
+                    )    
+                }
+                        
+
             </div>
             <Login {...loginModalProps} />
             <Register {...registerModalProps} />

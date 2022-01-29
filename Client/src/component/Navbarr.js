@@ -35,14 +35,23 @@ function UserNav() {
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto">
                     <NavDropdown id="dropdown-menu-align-start "
+                        className='navDrop'
                         title={
                             <Image className='iconImage mb-3' src={UserIcon} roundedCircle style={{ width: '40px', height: '40px' }
-                            }/>}className='navDrop' >
+                        } />}
+                    >
 
                         <Image src={Polygon} alt="ico" className="position-absolute" style={{ top: "-20px", right: "75%", width: "30px" }}/>
+                        
+                        <NavDropdown.Item>
+                            <Link to="/profile" onClick={""} className='d-flex align-items-center'>
+                                <Image className='iconImage' src={ArtisIcon} thumbnail />
+                                <h6 className='textLink'>Profile</h6>
+                            </Link>
+                        </NavDropdown.Item>
 
                         <NavDropdown.Item>
-                            <Link to="/pay" onClick={""} className='profile d-flex align-items-center'>
+                            <Link to="/pay" onClick={""} className='d-flex align-items-center'>
                                 <Image className='iconImage' src={PayIcon} thumbnail />
                                 <h6 className='textLink'>Pay</h6>
                             </Link>
@@ -51,7 +60,7 @@ function UserNav() {
                         <NavDropdown.Divider />
 
                         <NavDropdown.Item>
-                            <Link to="/" onClick={handleLogout} className='profile d-flex align-items-center'>
+                            <Link to="/" onClick={handleLogout} className='d-flex align-items-center'>
                                 <Image className='iconImage' src={LogoutIcon} thumbnail />
                                 <h6 className='textLink'>Logout</h6>
                             </Link>
@@ -82,24 +91,16 @@ function AdminNav() {
                     } width="50px" height="50px" />}
             >
                 <Image src={Polygon} alt="ico" className="position-absolute" style={{ top: "-20px", right: "72%", width: "30px" }}/>
-
-            {/* <NavDropdown align="end" title={<img src={Ava} width="50px" height="50px" alt="" className="rounded-circle" />} id="dropdown-menu-align-end"> */}
-                {/* <Dropdown.Item>
-                    <Link to="/listtransactions" onClick={""} className='profile d-flex align-items-center'>
-                        <Image className="iconImage" src={PayIcon} thumbnail />
-                        <h6 className="textLink">List Transactions</h6>
-                    </Link>
-                </Dropdown.Item> */}
                 <Dropdown.Item>
                     <Link to="/addmusic"
                         onClick={""}
-                        className='profile d-flex align-items-center'>
+                        className='d-flex align-items-center'>
                         <Image className="iconImage" src={MusicIcon} thumbnail />
                         <h6 className="textLink">Add Music</h6>
                     </Link>
                 </Dropdown.Item>
                 <Dropdown.Item>
-                    <Link to="/addartis" onClick={""} className='profile d-flex align-items-center'>
+                    <Link to="/addartis" onClick={""} className='d-flex align-items-center'>
                         <Image className="iconImage" src={ArtisIcon} thumbnail />
                          <h6 className="textLink">Add Artis</h6>
                      </Link>
@@ -107,7 +108,7 @@ function AdminNav() {
 
                 <Dropdown.Divider />
                 <Dropdown.Item>
-                    <Link to="/" onClick={handleLogout} className='profile d-flex align-items-center'>
+                    <Link to="/" onClick={handleLogout} className='d-flex align-items-center'>
                         <Image className="iconImage" src={LogoutIcon} thumbnail />
                         <h6 className="textLink"> Logout</h6>
                     </Link>

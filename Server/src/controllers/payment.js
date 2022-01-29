@@ -1,6 +1,6 @@
 const { payment, user } = require("../../models")
 
-let FILE_PATH = 'http://localhost:5001/uploads/'
+let FILE_PATH = 'http://localhost:5001/uploads/musics/'
 
 exports.addPayment = async (req, res) => {
     try {
@@ -12,9 +12,9 @@ exports.addPayment = async (req, res) => {
             startDate: today,
             dueDate: today,
             status: "pending",
-            attache: req.file.filename,
+            attache: req.files[0].filename,
         })
-        console.log(req.file.filename)
+        console.log(req.files[0].filename)
 
         paymentData = JSON.parse(JSON.stringify(data))
 
@@ -51,8 +51,13 @@ exports.getPayments = async (req, res) => {
 
         data = JSON.parse(JSON.stringify(data))
 
-        // console.log(paymentData)
+        data = data.map((item) => {
+            return {
+                ...item,
+                attache: FILE_PATH + item.attache
+}
 
+})
         res.status(200).send({
             status: "success",
             data

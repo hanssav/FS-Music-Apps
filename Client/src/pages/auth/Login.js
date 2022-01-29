@@ -6,11 +6,14 @@ import {UserContext} from "../../context/UserContext"
 
 import "./auth.css"
 
-import { API } from '../../config/api'
+import { API, setAuthToken } from '../../config/api'
+
+console.log(setAuthToken.token)
 
 export default function Login(props) {
     // console.log(props)
     let history = useHistory();
+    // console.log(history)
 
     const [,dispatch] = useContext(UserContext)
 
@@ -41,24 +44,29 @@ export default function Login(props) {
             }
 
             const body = JSON.stringify(form);
-            // console.log(body)
+            console.log(body)
 
             const response = await API.post("/login", body, config)
+            // const response = await API.post("/", body, config)
             console.log(response.data.data)
-
+            
+            // setAuthToken(localStorage.token)
+            // console.log(response.data.data.token)
+            setAuthToken(response.data.data.token)
+            
             if (response?.status === 200) {
                 dispatch({
-                    type: "LOGIN_SUCCESS",
-                    payload: response.data.data
+                    type: "LOGIN_SUCCESS", 
+                    payload: {...response.data.data, token: response.data.data.token}
                 })
-
+                
                 if (response.data.data.listAs === "1") {
                     history.push("/listtransactions")
                 } else {
                     history.push("/");
                     props.handleCloseLogin();
                 }
-
+                
                 const alert = (
                     <Alert variant="success" className="py-1" >
                         Login Success
@@ -66,13 +74,18 @@ export default function Login(props) {
                 )
                 setMessage(alert)
             }
+            
+            
         } catch (error) {
-            const alert = (
-                <Alert variant="danger" className="py-1">
-                    Login failed
-                </Alert>
-            )
-            setMessage(alert)
+            console.log(error.message)
+            if(error.message === "Request failed with status code 400"){
+                const alert = (
+                    <Alert variant="danger" className="py-1">
+                        Login failed
+                    </Alert>
+                )
+                setMessage(alert)
+            }
             console.log(error)
         }
     }

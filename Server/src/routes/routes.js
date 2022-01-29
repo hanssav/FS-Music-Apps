@@ -20,10 +20,10 @@ router.get("/check-auth", checkAuth);
 router.post("/adduser", addUser);
 router.get("/getusers", getUsers);
 router.get("/getuser/:id", getUser);
-router.put("/updateuser/:id", updateUser);
+router.patch("/updateuser/:id", updateUser);
 router.delete("/deleteuser/:id", deleteUser);
 
-router.post("/addpayment", uploadFile("image"), addPayment  );
+router.post("/addpayment", uploadMusic("image"), addPayment  );
 router.get("/getpayments", auth, getPayments);
 router.get("/getpayment/:id", getPayment);
 router.put("/updatepayment/:id", updatePayment);
