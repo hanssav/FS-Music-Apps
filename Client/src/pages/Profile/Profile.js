@@ -81,7 +81,7 @@ export default function Profile() {
                         <li>
                             <h3 className='name mb-3'>
                                 {userProfile.fullName}
-                                </h3>
+                            </h3>
                         </li>
                         <li>
                             <h5>Email</h5>

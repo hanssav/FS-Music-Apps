@@ -121,7 +121,7 @@ export default function Home() {
                     {music.map((a, i) => {
                         // console.log(music)
                             return (
-                                <Col onClick={() => selectMusic(i)} className="d-flex justify-content-center"
+                                <Col onClick={() => selectMusic(i)} className="d-flex justify-content-center mb-4"
                                     style={{
                                         // width: "12rem",
                                         cursor: "pointer"

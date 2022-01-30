@@ -89,7 +89,7 @@ export default function Register(props) {
         } catch (error) {
             const alert = (
                 <Alert variant="danger" className="py-1">
-                    Failed
+                    {error.response.data.message}
                 </Alert>
             );
             setMessage(alert);

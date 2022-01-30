@@ -8,7 +8,7 @@ import "./auth.css"
 
 import { API, setAuthToken } from '../../config/api'
 
-console.log(setAuthToken.token)
+// console.log(setAuthToken.token)
 
 export default function Login(props) {
     // console.log(props)
@@ -44,11 +44,11 @@ export default function Login(props) {
             }
 
             const body = JSON.stringify(form);
-            console.log(body)
+            // console.log(body)
 
             const response = await API.post("/login", body, config)
             // const response = await API.post("/", body, config)
-            console.log(response.data.data)
+            console.log(response)
             
             // setAuthToken(localStorage.token)
             // console.log(response.data.data.token)
@@ -77,16 +77,16 @@ export default function Login(props) {
             
             
         } catch (error) {
-            console.log(error.message)
-            if(error.message === "Request failed with status code 400"){
+            console.log(error.response)
+            if(error){
                 const alert = (
                     <Alert variant="danger" className="py-1">
-                        Login failed
+                        {error.response.data.message}
                     </Alert>
                 )
                 setMessage(alert)
             }
-            console.log(error)
+            // console.log(error)
         }
     }
 

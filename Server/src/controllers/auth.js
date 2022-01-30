@@ -12,9 +12,9 @@ exports.register = async(req, res) => {
         const data = req.body
 
         const schema = Joi.object({
-            fullName: Joi.string().min(5).required(),
             email: Joi.string().email().min(5).required(),
             password: Joi.string().min(5).required(),
+            fullName: Joi.string().min(5).required(),
             listAs: Joi.string().required(),
             gender: Joi.string().min(4).required(),
             phone: Joi.string().min(10).required(),
@@ -31,19 +31,31 @@ exports.register = async(req, res) => {
             })
         }
 
-        const userExist = await user.findOne({
+        const emailExist = await user.findOne({
             where: {
             email: data.email,
             },
         });
 
-        if (userExist) {
-            return res.send({
-            status: "error",
-            message: "email already exist",
+        if (emailExist) {
+            return res.status(400).send({
+                status: "error",
+                message: "email already exist",
             });
         }
         // add response
+        const phoneExist = await user.findOne({
+            where: {
+            phone: data.phone,
+            },
+        });
+
+        if (phoneExist) {
+            return res.status(400).send({
+                status: "error",
+                message: "number phone already exist",
+            });
+        }
 
         const salt = await bcrypt.genSalt(10)
         const hashedPassword = await bcrypt.hash(req.body.password, salt)

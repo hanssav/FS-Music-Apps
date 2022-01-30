@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { Container, Table, Dropdown, Image } from 'react-bootstrap'
+import { Container, Table, Dropdown, Image, Button } from 'react-bootstrap'
 
 import Navbar from '../../component/Navbarr'
 
@@ -88,6 +88,13 @@ export default function ListTransactions() {
         }
     }
 
+    const attacheName = (atthache) => {
+        console.log(atthache)
+        let title = atthache
+        const newTitle = title.split("-")
+        return newTitle.slice(1).join(" ")
+    }
+
     return (
         <>
             <Navbar />
@@ -110,19 +117,16 @@ export default function ListTransactions() {
                     <tbody>
                     {
                             payment.map((items, index) => {
-                            // console.log(payment.length)
-                            // console.log(getDay(new Date(items.dueDate), new Date()))
-                                // console.log(new Date(items.dueDate) >= new Date())
-                                console.log(new Date(items.dueDate) > new Date())
-                                console.log(items.user.fullName)
                             return (
                                 <tr key={index}>
                                     <td>{index + 1}</td>
                                     <td>{items.user.fullName}</td>
                                     <td class='cursor-pointer' onClick={() =>
                                         window.open(items.attache , 'blank').focus()
-                                    }>{items.attache}
-                                        {/* <Image src={items.attache} /> */}
+                                    }>
+                                        <Button variant="outline-light" className='border-0'>
+                                            {attacheName(items.attache)}
+                                        </Button> 
                                     </td>
                                     {new Date(items.dueDate) > new Date() ? (
                                             <td>{getDay(new Date(items.dueDate), new Date())} / Hari</td>
@@ -163,3 +167,4 @@ export default function ListTransactions() {
         </>
     )
 }
+
